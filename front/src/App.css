@@ -1,0 +1,93 @@
+body{
+  margin:0px; padding: 0px; box-sizing: border-box;
+  padding-top:148px;
+}
+.icon-box-big50{
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.icon-box13{
+  width: 13px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.icon-box18{
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.icon-box{
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.icon{
+  width: 100%;
+  height: 100%;
+  background-position: 50%;
+  background-size: 100%;
+}
+
+.header-logo-icon{
+  background-image: url(assets/header-logo.png);
+}
+.header-menu-icon{
+  background-image: url(assets/header-menu.png);
+}
+.header-menu-color-icon{
+  background-image: url(assets/menu-color.png);
+}
+.header-search-icon{
+  background-image: url(assets/search.png);
+}
+.header-baby-icon{
+  background-image: url(assets/baby.png);
+}
+.header-car-icon{
+  background-image: url(assets/car.png);
+}
+.header-cloth-icon{
+  background-image: url(assets/cloth.png);
+}
+.header-cosmetic-icon{
+  background-image: url(assets/cosmetic.png);
+}
+.header-dog-icon{
+  background-image: url(assets/dog.png);
+}
+.header-electronic-icon{
+  background-image: url(assets/electronic.png);
+}
+.header-etc-icon{
+  background-image: url(assets/etc.png);
+}
+.header-furniture-icon{
+  background-image: url(assets/furniture.png);
+}
+
+.header-jobhwa-icon{
+  background-image: url(assets/jobhwa.png);
+}
+.header-sport-icon{
+  background-image: url(assets/sport.png);
+}
+
+.auth-ok-icon{
+  background-image: url(assets/auth_icon/ok.png);
+}
+.auth-no-icon{
+  background-image: url(assets/auth_icon/no.png);
+}

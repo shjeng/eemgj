@@ -1,0 +1,134 @@
+#header{
+  position: fixed;
+  width: 100%;
+  top:0px;
+  background-color: #ffffff;
+}
+.header-container{
+  min-width: 1280px;
+  width: 1440px;
+  margin: auto;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+}
+.header-top{
+  display: flex;
+  justify-content: space-between;
+}
+.header-left-box{display: flex; cursor: pointer;}
+.header-logo-text{
+  font-size: 36px;
+  padding: 5px;
+  font-weight: 600;
+}
+.header-middle-box{
+  display: flex;
+  padding: 5px;
+}
+.header-search-input-box{
+  padding: 5px 10px 10px 1px;
+  width: 480px;
+  background-color: #F1F1F1;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  display: flex;
+}
+.header-search-input{
+  padding-left:20px ;
+  outline: none;
+  width: 88%;
+  height: 100%;
+  background-color: #F1F1F1;
+  border: none;
+  font-size: 18px;
+}
+.header-search-input::placeholder{
+  color: #494949;
+  font-size: 16px;
+}
+
+.header-right-box{
+  width: 100px;
+  height: 45px;
+  border: 1px solid black;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+.header-right-box:hover{
+  background-color: #fafafa;
+}
+
+.header-bottom{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-top: 20px;
+}
+.header-bottom-child{
+  display: flex;
+  font-size: 15px;
+  gap:20px;
+  cursor: pointer;
+}
+.header-menubar:hover{
+  color: #EB754F;
+}
+.icon-box13:hover + .header-menubar{ 
+  /* 부모가 같고 바로 아래 있는 형제에 효과를 줌. */
+  color: #EB754F;
+}
+.icon-box13{
+  margin-top: 3px;
+}
+.header-menubar{
+  font-weight: 600;
+}
+.menubar{
+  padding:50px;
+  padding-top: 40px;
+  font-size: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap:60px;
+  background-color: #ffffff;
+  
+}
+
+.menubar-category{
+  width: 200px;
+  display: flex;
+}
+.icon-box{
+  padding-top:5px;
+}
+.icon-box-text{
+  margin-left: 8px;
+  cursor: pointer;
+}
+.menubar-none{  
+  display: none;
+}
+.menubar-category:hover{
+  /* 마우스를 올린 상태의 텍스트 스타일 */
+  animation-name: ani;
+  animation-duration: 0.3s;
+  animation-fill-mode:both;
+}
+@keyframes ani {
+
+  to{
+    transform: translateY(-3px);
+  }
+}
+.header-menubar-hover{
+  color: #EB754F;
+  font-weight: 600;
+}

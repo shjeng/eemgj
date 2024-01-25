@@ -1,0 +1,129 @@
+#main{
+  display: flex;
+  flex-direction: column;
+}
+.main-top-wrap{
+  background-color: #F6F1C4;
+  margin:auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 600px;
+}
+.main-left-box{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  width: 500px;
+  justify-content: center;
+}
+.main-left-box-big-text{
+  font-size: 86px;
+}
+.main-left-box-small-text{
+  color: #656565;
+  font-size: 28px;
+  padding-left:10px;
+}
+.main-left-box-button-text{
+  padding:30px;
+  font-size: 32px;
+  cursor: pointer;
+  color: #ffffff;
+  height: 10px;
+  background-color: #EB754F;
+  width: 380px;
+  line-height: 40%;
+  text-align: center;
+  border-radius: 25px;
+}
+.main-left-box-button-text:hover{
+  background-color: #eb764fec;
+}
+.main-right-box{
+  display: flex;
+  align-items: center;
+}
+.main-right-box-background{
+  background-image: url(assets/main-image1.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 100%;
+  width: 630px;
+  height: 500px;
+}
+
+
+
+.main-bottom-wrap{
+  background-color: #F1F1F1;
+  margin:auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 700px;
+  
+
+}
+.main-bottom-left-box{
+  padding-top:100px;
+  width: 500px;
+}
+.main-bottom-right-box{
+  padding-right: 150px;
+  padding-left: 100px;
+  padding-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;;
+  gap: 20px;
+}
+.main-right-box-big-text{
+  font-size: 86px;
+}
+.main-bottom-right-box-bottom{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.main-right-box-button-text{
+  text-align: center;
+  border-radius: 25px;
+  background-color: #EB754F;
+  padding:30px;
+  font-size: 32px;
+  width: 120px;
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+  color: #ffffff;
+}
+.main-right-box-button-text:hover{
+  background-color: #eb764fec;
+}
+.main-bottom-left-box-background{
+  background-image: url(assets/bok.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 100%;
+  height: 500px;
+  /* outline: 1px solid red;; */
+}
+
+
+
+
+/* 아래는 아이콘 css */
+.icon-box38{
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.icon-white-logo{
+  background-image: url(assets/white-logo.png);
+  background-repeat: no-repeat;
+}
