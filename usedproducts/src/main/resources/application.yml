@@ -9,6 +9,22 @@ spring:
     multipart:
       maxFileSize: 100MB
       maxRequestSize: 110MB
+  mail:
+    host: smtp.naver.com # stmp.gmail.com
+    port: 465 # naver는 465 구글은 587
+    username: ghsmsl@naver.com
+    password: qnfmdqnfmd5764@
+    properties:
+      auth: true
+      starttls:
+        enable: true
+        required: true
+      connectiontimeout: 5000
+      timeout: 5000
+      writetimeout: 5000
+  auth-code-expiration-millis: 900000
+
+
 
   jpa:
     hibernate:
@@ -31,6 +47,8 @@ server:
     session:
       tracking-modes: cookie
 #      timeout: 1800  // 기본이 1800,
+
+
 
 jwt:
   secretKey: S3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3y

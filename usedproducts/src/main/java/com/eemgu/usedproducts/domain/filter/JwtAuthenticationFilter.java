@@ -1,4 +1,4 @@
-package com.eemgu.usedproducts.filter;
+package com.eemgu.usedproducts.domain.filter;
 
 import com.eemgu.usedproducts.domain.JwtProvider;
 import lombok.RequiredArgsConstructor;

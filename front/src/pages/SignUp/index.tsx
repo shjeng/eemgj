@@ -32,16 +32,34 @@ const SignUp =() => {
   const [pwdError, setPwdError] = useState<boolean>(false); // 비밀번호 에러 
   const [pwdChkError, setPwdChkError] = useState<boolean>(false); // 비밀번호 확인 에러 
 
+  const [phoneError, setPhoneError] = useState<boolean>(false); // 핸드폰 번호 에러 
+  const [phoneAuthValueError, setPhoneAuthValueError] = useState<boolean>(false); // 핸드폰 인증 에러 
+  const [nicknameError, setNicknameError] = useState<boolean>(false); // 닉네임 중복 에러 
+  const [addressError, setAddressError] = useState<boolean>(false); // 주소 미기입 에러 
+
+
+  // function:  email 함수     // 
   const onEmailChangeHander = (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
+    setEmailError(false);
     setEmail(value);
   }
-  
-  // email 때 엔터를 눌렀을 경우 
   const onEmailKeyDownHander = (event: KeyboardEvent<HTMLInputElement>) => {
     if(event.key !== 'Enter') return;
-
+    const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
+    const emailCheck = emailRegEx.test(email);
+    if(!emailCheck){
+      setEmailError(true); // 이메일 형식이 아니면 
+      return;
+    }
+    onEmailAuthButtonClickHandler();
   }
+
+  // function: email Auth Button 
+const onEmailAuthButtonClickHandler = () => {
+
+}
+
   return (
     <>
     <div id="auth">
