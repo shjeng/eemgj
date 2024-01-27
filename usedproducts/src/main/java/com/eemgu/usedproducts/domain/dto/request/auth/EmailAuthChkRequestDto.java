@@ -1,4 +1,4 @@
-package com.eemgu.usedproducts.dto.request.auth;
+package com.eemgu.usedproducts.domain.dto.request.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class EmailAuthRequestDto {
+public class EmailAuthChkRequestDto {
     @NotBlank
     private String email;
     @NotBlank

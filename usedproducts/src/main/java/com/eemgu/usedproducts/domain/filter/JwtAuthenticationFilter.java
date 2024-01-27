@@ -1,6 +1,6 @@
 package com.eemgu.usedproducts.domain.filter;
 
-import com.eemgu.usedproducts.domain.JwtProvider;
+import com.eemgu.usedproducts.domain.provider.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

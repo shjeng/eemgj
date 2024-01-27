@@ -1,9 +1,12 @@
 package com.eemgu.usedproducts.domain.common;
 
-public class ResponseCode {
+public interface ResponseCode {
+    // HTTP Status 200
     String SUCCESS = "SU";
 
+    // HTTP Status 400
     String VALIDATION_FAIL = "VF";
+    String DUPLICATE_EMAIL = "DM";
     String DUPLICATE_ID = "DI";
 
     String SIGN_IN_FAIL = "SF";

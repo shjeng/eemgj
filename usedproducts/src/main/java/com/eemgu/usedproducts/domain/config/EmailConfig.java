@@ -34,7 +34,7 @@ public class EmailConfig {
     private int writeTimeout;
 
     @Bean
-    private JavaMailSender javaMailSender(){
+    public JavaMailSender javaMailSender(){
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(host);
         mailSender.setPort(port);
