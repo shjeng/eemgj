@@ -1,5 +1,9 @@
 import React, { ChangeEvent, KeyboardEvent, forwardRef, useRef, useState } from 'react';
 import AuthInputBox from '../../components/AuthInputBox';
+import { signUpEmailAuthChkRequest, signUpEmailAuthRequest } from '../../apis';
+import { EmailAuthChkRequestDto, EmailAuthRequestDto } from '../../apis/request/auth';
+import { PostEmailAuthChkDto, PostEmailAuthDto } from '../../apis/response/auth';
+import { ResponseDto } from '../../apis/response';
 
 
 const SignUp =() => {
@@ -37,14 +41,16 @@ const SignUp =() => {
   const [nicknameError, setNicknameError] = useState<boolean>(false); // 닉네임 중복 에러 
   const [addressError, setAddressError] = useState<boolean>(false); // 주소 미기입 에러 
 
+  const [emailReadonly, setEmailReadonly] = useState<boolean>(false); // 이메일 인증 요청을 하면 read only로
+  const [emailAuthDisplay, setEMailAuthDisplay] = useState<boolean>(false); // 이메일 인증 요청을 해야 보임
 
   // function:  email 함수     // 
-  const onEmailChangeHander = (event: ChangeEvent<HTMLInputElement>) => {
+  const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
-    setEmailError(false);
+    setEmailError(false); // 비밀번호를 다시 입력하는 경우 인증 해제 
     setEmail(value);
   }
-  const onEmailKeyDownHander = (event: KeyboardEvent<HTMLInputElement>) => {
+  const onEmailKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if(event.key !== 'Enter') return;
     const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
     const emailCheck = emailRegEx.test(email);
@@ -54,38 +60,153 @@ const SignUp =() => {
     }
     onEmailAuthButtonClickHandler();
   }
+  // api: 이메일 인증 요청 버튼 클릭     // 
+  const onEmailAuthButtonClickHandler = () => {
+    const requestBody: EmailAuthRequestDto = {email};
+    signUpEmailAuthRequest(requestBody).then(signUpEmailAuthResponse);
+  }
+  // 이메일 인증 요청 버튼 클릭 후 응답 
+  const signUpEmailAuthResponse = (responseBody: PostEmailAuthDto | ResponseDto | null) => {
+    if(!responseBody) {
+      alert('네트워크 이상입니다.');
+      return;
+    }
+    const {code} = responseBody;
+    if(code === 'DE') alert('이미 가입된 이메일입니다.');
+    if(code === 'MF') alert('인증 번호 전송에 실패했습니다..');
+    if(code === 'DBE') alert('데이터베이스 오류입니다.');
+    if(code !== 'SU') {
+      setEmailError(true); // 이메일 인증 요청했을 때 오류가 발생하면. 
+      emailRef.current?.focus(); // 이메일에 포커스
+      return;
+    }
+    setEmailAuthChk(true);
+    setEmailReadonly(true); // readOnly를 true로 
+  }
+  // function: email Auth Button, 이메일 인증 요청  // 
+  const onEmailAuthChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const {value} = event.target;
+    setEmailAuthValueError(false);
+    setEmailAuthValue(value);
+  }
+  const onEmailAuthKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if(event.key !== 'Enter') return;
+    if(emailAuthValue.length < 6) { // 인증 번호 6글자 미만이면 오류 
+      setEmailAuthValueError(true);
+      return;
+    }
+    onEmailAuthChkButtonClickHandler();
+  }
+  // api: 이메일 인증 확인 클릭    //
+  const onEmailAuthChkButtonClickHandler = () => {
+    const requestBody: EmailAuthChkRequestDto = {email, emailAuthValue};
+    signUpEmailAuthChkRequest(requestBody).then(signUpEmailAuthChkResponse);
+  }
+  // 응답 
+  const signUpEmailAuthChkResponse = (responseBody: PostEmailAuthChkDto | ResponseDto | null) => {
+    if(!responseBody) {
+      alert('네트워크 이상입니다.');
+      return;
+    }
+    const {code} = responseBody;
+    if(code === 'VF') alert('유효하지 않는 이메일 또는 인증 번호입니다.');
+    if(code === 'DE') alert('이미 가입된 이메일입니다.');
+    if(code === 'DBE') alert('데이터베이스 오류입니다.');
+    if(code !== 'SU') {
+      setEmailAuthValueError(true); // 인증 번호 오류  
+      emailAuthValueRef.current?.focus(); // 인증 번호 input칸에 focus
+      return;
+    }
+  }
 
-  // function: email Auth Button 
-const onEmailAuthButtonClickHandler = () => {
-
-}
+  // function: password 
+  const onPwdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const {value} = event.target;
+    setPwd(value);
+    setPwdError(false);
+  }
+  const onPwdKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if(event.key !== 'Enter') return;
+    if(pwd.length < 8){
+      setPwdError(true);
+      return;
+    }
+    pwdChkRef.current?.focus();
+  }
+  // function: password Check 
+  const onPwdChkChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const {value} = event.target;
+    setPwdChk(value);
+    setPwdChkError(false);
+  }
+  const onPwdChkKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if(event.key !== 'Enter') return;
+    if(pwdChk.length < 8){
+      setPwdChkError(true);
+      return;
+    }
+    nextStageButton();
+  }
+  // function: 다음 단계 버튼     //
+  const nextStageButton = () => {
+    if(!emailAuthChk){
+      setEmailError(true);
+      emailRef.current?.focus();
+      return;
+    }
+    if(pwd.length<8){
+      setPwdError(true);
+      pwdRef.current?.focus();
+    }
+    if(pwd !== pwdChk){
+      setPwdChkError(true);
+      pwdChkRef.current?.focus();
+      return;
+    }
+    setPage(2);
+  }
 
   return (
     <>
     <div id="auth">
 
       <div className='auth-left-box'>
-        <div className='auth-left-top-text'>
+        <div className='auth-left-top-text'>{'안녕하세요. 반가워요!'}</div>
+        <div className='auth-left-top-text'>{'뜨거 회원가입 페이지 입니다.'}</div>
         <div className='auth-left-bottom-img'></div>
-      </div>
       </div>
 
       <div className='auth-right-box'>
         {page === 1 &&
-        <div>
-          <AuthInputBox label={'이메일'} ref={emailRef} placeholder={'이메일 주소를 입력해주세요.'} button_text={'인증'} value={email} icon={false} error={emailError} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
-          <AuthInputBox label={'인증 번호'} ref={emailAuthValueRef} placeholder='인증 번호를 입력해주세요.' button_text='인증' value={email} icon={true} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
-          <AuthInputBox label={'비밀번호'} ref={pwdRef} placeholder='이메일 주소를 입력해주세요' button_text='인증' value={email} icon={false} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
-          <AuthInputBox label={'비밀번호 확인'} ref={pwdChkRef} placeholder='이메일 주소를 입력해주세요' button_text='인증' value={email} icon={false} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
+        <>
+        <div className='auth-input-boxs'>
+          <AuthInputBox label={'이메일'} ref={emailRef} type={'text'} placeholder={'이메일 주소를 입력해주세요.'} button_text={'인증'} value={email} icon={false} error={emailError} 
+          onChangeHandler={onEmailChangeHandler} onKeyDownHandler={onEmailKeyDownHandler} isButton={true} onButtonClickHandler={onEmailAuthButtonClickHandler} isReadonly={emailReadonly}/>
+          {emailAuthDisplay && // 이메일 인증번호
+          <AuthInputBox label={'인증 번호'} type={'text'} ref={emailAuthValueRef} placeholder={'인증 번호를 입력해주세요.'} button_text={'확인'} value={emailAuthValue} icon={true} error={emailAuthValueError} 
+          onChangeHandler={onEmailAuthChangeHandler} onKeyDownHandler={onEmailAuthKeyDownHandler} isButton={true} onButtonClickHandler={onEmailAuthButtonClickHandler}/>
+          }
+          <AuthInputBox label={'비밀번호'}  type={'password'} ref={pwdRef} placeholder={'8글자 이상 입력해주세요'}  value={pwd} icon={false} error={pwdError} 
+          onChangeHandler={onPwdChangeHandler} onKeyDownHandler={onPwdKeyDownHandler}/>
+          <AuthInputBox label={'비밀번호 확인'} type={'password'} ref={pwdChkRef} placeholder={'비밀번호를 한번 더 입력해주세요.'} value={pwdChk} icon={false} error={pwdChkError} 
+          onChangeHandler={onPwdChkChangeHandler} onKeyDownHandler={onPwdChkKeyDownHandler}/>
         </div>
+        <div>
+          <div>{'다음단계'}</div>
+          <div>
+            <div>{'이미 가입된 이력이 있으신가요?'}</div>
+            <div>{'로그인'}</div>
+          </div>
+        </div>
+        </>
         }
         {page === 2 &&
         <div>
-          <AuthInputBox label='휴대폰 번호' ref={emailRef} placeholder='이메일 주소를 입력해주세요' button_text='인증' value={email} icon={true} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
+          {/* <AuthInputBox label='휴대폰 번호' ref={emailRef} placeholder='이메일 주소를 입력해주세요' button_text='인증' value={email} icon={true} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
           <AuthInputBox label='인증 번호' ref={emailRef} placeholder='이메일 주소를 입력해주세요' button_text='인증' value={email} icon={true} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
           <AuthInputBox label='닉네임' ref={emailRef} placeholder='이메일 주소를 입력해주세요' button_text='인증' value={email} icon={true} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
           <AuthInputBox label='주소' ref={emailRef} placeholder='이메일 주소를 입력해주세요' button_text='인증' value={email} icon={true} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
-          <AuthInputBox label='상세주소' ref={emailRef} placeholder='이메일 주소를 입력해주세요' button_text='인증' value={email} icon={true} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/>
+          <AuthInputBox label='상세주소' ref={emailRef} placeholder='이메일 주소를 입력해주세요' button_text='인증' value={email} icon={true} error={false} onChangeHandler={onEmailChangeHander} onKeyDownHandler={onEmailKeyDownHander}/> */}
         </div>
         }
       </div>

@@ -11,7 +11,7 @@ spring:
       maxRequestSize: 110MB
   mail:
     host: smtp.naver.com # stmp.gmail.com
-    port: 587 # naver는 465 구글은 587
+    port: 587 #  구글은 587
     username: ghsmsl@naver.com
     password: qnfmdqnfmd5764@
     properties:

@@ -1,0 +1,48 @@
+#input-component{
+  display: flex;
+  /* outline: 1px solid red; */
+  flex-direction: column;
+  width: 500px;
+  gap: 10px;
+}
+.label{
+  font-size: 22px;
+  font-weight: 600;
+}
+.input-box{
+
+  display: flex;
+  justify-content: space-between;
+}
+.input{
+  outline: none;
+  border: none;
+  width: 100%;
+  border-bottom: 1px solid #BBBBBB;
+  padding: 5px;
+}
+.button{
+  width: 90%;
+}
+.input::placeholder{
+  font-size: 16px;
+}
+.auth-button{
+  cursor: pointer;
+  font-size: 16px;
+  width: 10%;
+  border: 1px solid #BBBBBB;
+  border-radius: 15px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4378FF;
+}
+.auth-button:hover{
+  border: 1px solid #9b9b9b;
+  background-color: #fdfdfd;
+}
+.error{
+  border-bottom: 1px solid #f80202;
+}

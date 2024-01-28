@@ -14,13 +14,13 @@ public class AuthNumber {
     @Id @GeneratedValue
     private Long id;
 
-    @Column(name = "email")
-    private String emailOrPhone;
+    @Column(name = "email_phone")
+    private String emailPhone;
     @Column(name = "auth_number")
     private String authNumber;
 
-    public AuthNumber(String emailOrPhone, String authNumber) {
-        this.emailOrPhone = emailOrPhone;
+    public AuthNumber(String emailPhone, String authNumber) {
+        this.emailPhone = emailPhone;
         this.authNumber = authNumber;
     }
 }

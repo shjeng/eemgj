@@ -25,4 +25,11 @@ public class EmailAuthChkResponseDto extends ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> duplicateEmail(){ // 이메일 중복
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATE_EMAIL, ResponseMessage.DUPLICATE_EMAIL);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+
+
 }

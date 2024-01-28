@@ -5,24 +5,30 @@ import React, { ChangeEvent, KeyboardEvent, forwardRef, useState } from 'react';
 interface Props{
   label: string;
   placeholder: string;
-  button_text: string;
+
   value: string;
   icon: boolean;
-  error: boolean;
-  authChk?: boolean;
+  error: boolean; // 에러가 있을 시 
+  authChk?: boolean; // 인증이 완료 됐을 경우 
+  type: string;
   onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
   onKeyDownHandler: (event: KeyboardEvent<HTMLInputElement>) => void;
+
+  // 인증 button 
+  isButton?: boolean;
+  isReadonly?: boolean; // 인증번호 요청하면 readonly로 변환 
+  button_text?: string;
+  onButtonClickHandler?: () => void;
 }
 
 const AuthInputBox = forwardRef<HTMLInputElement, Props>((props:Props, ref) => {
   //    state     //
   // const []
-  const {label, value, placeholder,button_text} = props;
+  const {label, value, placeholder,button_text, isReadonly, isButton, type} = props;
   const {icon, error, authChk} = props;
-
   //    function    //
   const {onChangeHandler, onKeyDownHandler} = props;
-  
+  const {onButtonClickHandler} = props;
   // input 박스에 필요한 것 
   // 공통 : placeholer, label, value, error, onKeyDownHandler
   // 일부 : icon(ok표시), 
@@ -34,16 +40,22 @@ const AuthInputBox = forwardRef<HTMLInputElement, Props>((props:Props, ref) => {
   // 5 휴대폰 6 인증 7 닉네임 8 주소 9 상세주소 
   return (
     <>
-    <div>
-      <div>{label}</div>
-      {icon &&
+    <div id='input-component'>
+      <div className='label'>{label}</div>
+      {icon && // 아이콘이 있냐, 없냐 icon이 false면 authChk 받으면 안 됨
       <div className='icon-box18'>
         {!authChk ? <div className='icon auth-ok-icon'></div> : <div className='icon auth-no-icon'></div>}
       </div>}
-    </div>
-    <div>
-      <input placeholder={placeholder} ref={ref} value={value} onChange={onChangeHandler}/>
-      <div onKeyDown={onKeyDownHandler}>{button_text}</div>
+
+      <div className='input-box'>
+        {isButton ?
+        <input className={error ? 'error button input' : 'button input'} type={type} placeholder={placeholder} ref={ref} value={value} onChange={onChangeHandler} readOnly={isReadonly} onKeyDown={onKeyDownHandler}/> :
+        <input className={error ? 'error input' : 'input'} type={type} placeholder={placeholder} ref={ref} value={value} onChange={onChangeHandler} readOnly={isReadonly} onKeyDown={onKeyDownHandler}/>
+        }
+        {isButton && // 버튼이 존재하냐 안 하냐.
+        <div className='auth-button' onClick={onButtonClickHandler}>{button_text}</div>
+        }
+      </div>
     </div>
     </>
   );
