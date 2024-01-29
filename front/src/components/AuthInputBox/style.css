@@ -1,28 +1,33 @@
 #input-component{
   display: flex;
-  /* outline: 1px solid red; */
+  /* outline: 1px solid blue; */
   flex-direction: column;
-  width: 500px;
+  width: 400px;
   gap: 10px;
+}
+.label-icon{
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .label{
   font-size: 22px;
   font-weight: 600;
+  padding-left: 40px
 }
 .input-box{
-
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 .input{
   outline: none;
   border: none;
-  width: 100%;
+  width: 80%;
   border-bottom: 1px solid #BBBBBB;
   padding: 5px;
 }
 .button{
-  width: 90%;
+  width: 70%;
 }
 .input::placeholder{
   font-size: 16px;

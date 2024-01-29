@@ -52,7 +52,7 @@ public class AuthServiceImplement implements AuthService {
         String dtoGetAuthNumber = dto.getEmailAuthValue();
         try{
             Optional<UserEntity> userOptional = userEntityService.findByEmail(email);
-            if(userOptional.isPresent()) return EmailAuthChkResponseDto.duplicateEmail(); // 중복 이메일 
+            if(userOptional.isPresent()) return EmailAuthChkResponseDto.duplicateEmail(); // 중복 이메일
             Optional<AuthNumber> authNumberOptional = authNumberService.findByEmailPhone(email);
             if(authNumberOptional.isEmpty()) return EmailAuthChkResponseDto.validationFailEmail(); // 유효하지 않은 이메일인 경우
 

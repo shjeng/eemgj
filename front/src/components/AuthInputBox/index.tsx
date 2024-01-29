@@ -41,11 +41,13 @@ const AuthInputBox = forwardRef<HTMLInputElement, Props>((props:Props, ref) => {
   return (
     <>
     <div id='input-component'>
-      <div className='label'>{label}</div>
-      {icon && // 아이콘이 있냐, 없냐 icon이 false면 authChk 받으면 안 됨
-      <div className='icon-box18'>
-        {!authChk ? <div className='icon auth-ok-icon'></div> : <div className='icon auth-no-icon'></div>}
-      </div>}
+      <div className='label-icon'>
+        <div className='label'>{label}</div>
+        {icon && // 아이콘이 있냐, 없냐 icon이 false면 authChk 받으면 안 됨
+        <div className='icon-box18'>
+          {authChk ? <div className='icon auth-ok-icon'></div> : <div className='icon auth-no-icon'></div>}
+        </div>}
+      </div>
 
       <div className='input-box'>
         {isButton ?

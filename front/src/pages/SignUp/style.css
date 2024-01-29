@@ -1,12 +1,81 @@
 #auth{
-
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  height: 70vh;
+  align-items: center;
 }
 .auth-left-box{
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .auth-left-top-text{
-  font-size: 20px;
+  font-size: 32px;
+  padding-top: 20px;
+  font-weight: 600;
+}
+.auth-left-bottom-img{
+  width: 500px;
+  height: 500px;
+  background-size: 100%;
+  background-position: 50%;
+  background-image: url(assets/signupimg.png);
+}
+.auth-right-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 800px;
+  padding: 30px;
+  border: 1px solid rgb(0, 0, 0);;
+  border-radius: 10px;
+  box-shadow: 0px 0px 3px 0.2px rgb(0,0,0);
+}
+.auth-right-box-top{
+  font-size: 32px;
+  font-weight: 600;
+  padding-left: 30px;
 }
 .auth-input-boxs{
   display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  flex-basis: 60%;
+}
+.auth-right-bottom-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 20%;
+  gap: 20px;
+}
+
+.auth-right-bottom-next-btn{
+  background-color: #EB754F;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  height: 50px;
+  border-radius: 20px;
+  color: #FFFFFF;
+  font-size: 26px;
+}
+.auth-right-bottom-next-btn:hover{
+  background-color: #e97e5a;
+  cursor: pointer;
+}
+.auth-right-bottom-text{
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  justify-content: center;
+}
+.auth-right-bottom-text-link{
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
 }

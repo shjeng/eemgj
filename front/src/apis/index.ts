@@ -8,7 +8,7 @@ const API_DOMAIN = `${DOMAIN}/api`;
 
 
 // 이메일 인증 요청 
-const SIGN_UP_EMAIL_AUTH_URL = () => `${API_DOMAIN}/sign-up/email-auth`;
+const SIGN_UP_EMAIL_AUTH_URL = () => `${API_DOMAIN}/auth/sign-up/email-auth`;
 export const signUpEmailAuthRequest = async (requestBody: EmailAuthRequestDto) => {
   const result = await axios.post(SIGN_UP_EMAIL_AUTH_URL(),requestBody)
       .then(response => {
@@ -23,7 +23,7 @@ export const signUpEmailAuthRequest = async (requestBody: EmailAuthRequestDto) =
   return result;
 }
 // 이메일 인증 확인
-const SIGN_UP_EMAIL_AUTH_CHK_URL = () => `${API_DOMAIN}/sign-up/email-auth-chk`;
+const SIGN_UP_EMAIL_AUTH_CHK_URL = () => `${API_DOMAIN}/auth/sign-up/email-auth-chk`;
 export const signUpEmailAuthChkRequest = async(requestBody: EmailAuthChkRequestDto) => {
   const result = await axios.post(SIGN_UP_EMAIL_AUTH_CHK_URL(),requestBody)
       .then(response => {
