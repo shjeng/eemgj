@@ -2,6 +2,7 @@ html{
   margin:0px; padding: 0px; box-sizing: border-box;
   padding-top:148px;
   min-width: 1440px;
+  min-height: 1500px;
 }
 .icon-box-big50{
   width: 50px;

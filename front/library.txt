@@ -1,3 +1,5 @@
 npm i react-router-dom // 
 npm i zustand // 상태관리 
 npm i axios // 비동기 통신
+npm i react-daum-postcode // 다음 주소 
+npm i npm install react-cookie // 쿠키 

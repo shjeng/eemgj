@@ -5,14 +5,18 @@ import com.eemgu.usedproducts.domain.Entity.UserEntity;
 import com.eemgu.usedproducts.domain.common.RandomNumber;
 import com.eemgu.usedproducts.domain.dto.request.auth.EmailAuthChkRequestDto;
 import com.eemgu.usedproducts.domain.dto.request.auth.EmailAuthRequestDto;
-import com.eemgu.usedproducts.domain.dto.response.auth.EmailAuthChkResponseDto;
-import com.eemgu.usedproducts.domain.dto.response.auth.EmailAuthResponseDto;
+import com.eemgu.usedproducts.domain.dto.request.auth.SignInRequestDto;
+import com.eemgu.usedproducts.domain.dto.request.auth.SignUpRequestDto;
+import com.eemgu.usedproducts.domain.dto.response.auth.*;
 import com.eemgu.usedproducts.domain.jpa.service.AuthNumberService;
 import com.eemgu.usedproducts.domain.jpa.service.UserEntityService;
 import com.eemgu.usedproducts.domain.provider.EmailProvider;
+import com.eemgu.usedproducts.domain.provider.JwtProvider;
 import com.eemgu.usedproducts.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,6 +28,19 @@ public class AuthServiceImplement implements AuthService {
     private final AuthNumberService authNumberService;
     private final UserEntityService userEntityService;
     private final EmailProvider emailProvider;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final JwtProvider jwtProvider;
+    @Override // 닉넴 중복 확인
+    public ResponseEntity<? super NicknameDuplChkResponseDto> nicknameDuplChk(String nickname) {
+        try{
+            Optional<UserEntity> userOptional = userEntityService.findByNickname(nickname);
+            if(userOptional.isPresent()) return NicknameDuplChkResponseDto.nicknameDuplChk();
+        } catch (Exception e){
+            e.printStackTrace();
+            return NicknameDuplChkResponseDto.databaseError();
+        }
+        return NicknameDuplChkResponseDto.success();
+    }
     @Override // 이메일 인증 요청
     public ResponseEntity<? super EmailAuthResponseDto> emailAuth(EmailAuthRequestDto dto) {
         try{
@@ -66,5 +83,50 @@ public class AuthServiceImplement implements AuthService {
             return EmailAuthChkResponseDto.databaseError();
         }
         return EmailAuthChkResponseDto.success(email);
+    }
+
+    @Override // 로그인
+    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto) {
+        String token;
+        try{
+            String dtoEmail = dto.getEmail();
+            Optional<UserEntity> optionalUser = userEntityService.findByEmail(dtoEmail);
+            if(optionalUser.isEmpty()) return SignInResponseDto.signInFailed();
+
+            UserEntity userEntity = optionalUser.get();
+            String dtoPassword = dto.getPassword();
+            String encodedPassword = userEntity.getPassword();
+            boolean isMatched = passwordEncoder.matches(dtoPassword, encodedPassword);
+            if(!isMatched) return SignInResponseDto.signInFailed();
+
+            token = jwtProvider.create(userEntity.getEmail());
+        }catch (Exception e){
+            e.printStackTrace();
+            return SignInResponseDto.databaseError();
+        }
+        return SignInResponseDto.success(token);
+    }
+
+    @Override
+    public ResponseEntity<? super SignUpResponseDto> signUp(SignUpRequestDto dto) {
+        try{
+            String dtoEmail = dto.getEmail();
+            Optional<UserEntity> optionalUser = userEntityService.findByEmail(dtoEmail);
+            if(optionalUser.isPresent()) return SignUpResponseDto.duplicateEmail(); // 중복 이메일
+
+            String dtoNickname = dto.getNickname();
+            optionalUser = userEntityService.findByNickname(dtoNickname);
+            if(optionalUser.isPresent()) return SignUpResponseDto.duplicateNickname();
+
+            String dtoPassword = dto.getPassword();
+            String password = passwordEncoder.encode(dtoPassword);
+            dto.setPassword(password);
+            UserEntity userEntity = new UserEntity(dto);
+            userEntityService.save(userEntity);
+        }catch (Exception e){
+            e.printStackTrace();
+            return SignUpResponseDto.databaseError();
+        }
+        return SignUpResponseDto.success();
     }
 }

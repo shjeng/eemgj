@@ -3,6 +3,7 @@
   justify-content: center;
   gap: 60px;
   height: 70vh;
+  min-height: 1000px;
   align-items: center;
 }
 .auth-left-box{

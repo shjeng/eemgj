@@ -8,6 +8,7 @@ public interface ResponseMessage {
     String VALIDATION_FAIL = "Validation faild.";
     String DUPLICATE_ID = "Duplicate Id.";
     String DUPLICATE_EMAIL = "Duplicate Email.";
+    String DUPLICATE_NICKNAME = "Duplicate nickname.";
     String SIGN_IN_FAIL = "Login information mismatch.";
     String CERTIFICATION_FAIL = "Certification faild.";
 

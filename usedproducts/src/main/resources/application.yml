@@ -58,4 +58,4 @@ jwt:
 
 file:
   path: D:/fileUpload/
-  url: http://localhost:8081/file/
+  url: http://localhost:8080/file/
