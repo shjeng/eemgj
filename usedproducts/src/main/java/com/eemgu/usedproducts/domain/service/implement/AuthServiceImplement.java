@@ -100,6 +100,7 @@ public class AuthServiceImplement implements AuthService {
             if(!isMatched) return SignInResponseDto.signInFailed();
 
             token = jwtProvider.create(userEntity.getEmail());
+
         }catch (Exception e){
             e.printStackTrace();
             return SignInResponseDto.databaseError();

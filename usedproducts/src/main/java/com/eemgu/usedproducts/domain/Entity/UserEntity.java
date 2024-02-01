@@ -28,7 +28,8 @@ public class UserEntity extends BaseEntity{
     private String address; // 주소
     @Column(name = "user_detail_address")
     private String detailAddress; // 상세주소
-
+    @Column(name = "user_profile_image")
+    private String profileImage;
     public UserEntity(SignUpRequestDto dto){
         email = dto.getEmail();
         password = dto.getPassword();

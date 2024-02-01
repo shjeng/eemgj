@@ -8,7 +8,7 @@ interface Props{
 
   value: string;
   icon: boolean;
-  error: boolean; // 에러가 있을 시 
+  error?: boolean; // 에러가 있을 시 
   authChk?: boolean; // 인증이 완료 됐을 경우 
   type: string;
   onChangeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
