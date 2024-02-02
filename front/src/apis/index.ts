@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ResponseDto } from "./response";
-import { GetNicknameDuplChk, PostEmailAuthChkDto, PostEmailAuthDto, PostSignUpResponseDto } from "./response/auth";
-import { EmailAuthChkRequestDto, EmailAuthRequestDto, SignUpRequestDto } from "./request/auth";
+import { GetNicknameDuplChk, PostEmailAuthChkDto, PostEmailAuthDto, PostSignInResponseDto, PostSignUpResponseDto } from "./response/auth";
+import { EmailAuthChkRequestDto, EmailAuthRequestDto, SignInRequestDto, SignUpRequestDto } from "./request/auth";
 
 const DOMAIN = 'http://localhost:8080';
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -59,6 +59,21 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) => {
   const result = await axios.post(SIGN_UP(), requestBody)
       .then(response => {
         const responseBody: PostSignUpResponseDto = response.data;
+        return responseBody;
+      })
+      .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        return responseBody;
+      })
+  return result;
+}
+// 로그인
+const SIGN_IN = () => `${API_DOMAIN}/auth/sign-in`;
+export const signInRequest = async(requestBody: SignInRequestDto) => {
+  const result = await axios.post(SIGN_IN(),requestBody)
+      .then(response => {
+        const responseBody: PostSignInResponseDto  = response.data;
         return responseBody;
       })
       .catch(error => {

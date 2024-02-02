@@ -68,7 +68,7 @@ const SignUp =() => {
       setEmailError(true); // 이메일 형식이 아니면 
       return;
     }
-    onEmailAuthButtonClickHandler();
+    onEmailAuthButtonClickHandler(); // 이메일 인증 번호 요청 
   }
   // api: 이메일 인증 요청 버튼 클릭     // 
   const onEmailAuthButtonClickHandler = () => {

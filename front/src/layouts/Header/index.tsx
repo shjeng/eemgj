@@ -2,9 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import './style.css';
 import { LOGIN_PATH, MAIN_PATH } from '../../constant';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
+import useLoginUserStore from '../../stores/login-user-store';
 
 //      header component      //
 const Header = () => {
+  
+  const {loginUser,setLoginUser,resetLoginUser} = useLoginUserStore();
 
   // header-top 컴포넌트
   const HeaderTop = () => {
@@ -17,7 +20,8 @@ const Header = () => {
 
     // component: SearchBox 컴포넌트    //
     const SearchBox = () => {
-      
+
+
       //    state: 검색 버튼 요소 참조 상태    //
       const searchButtonRef = useRef<HTMLDivElement | null>(null);
       const inputRef = useRef<HTMLInputElement | null>(null);
@@ -66,9 +70,11 @@ const Header = () => {
           <div className='header-middle-box'>
             <SearchBox />
           </div>
-
-          <div className='header-right-box' onClick={onLoginButtonClickHandler}>
-            <div className='header-right-box-child' >{'로그인/회원가입'}</div>
+          <div className='header-right-box' >
+          {loginUser ? 
+            <div>마이페이지?</div> : 
+            <div className='header-right-box-child' onClick={onLoginButtonClickHandler}>{'로그인/회원가입'}</div> 
+          }
           </div>
         </div>
     </>

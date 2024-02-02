@@ -1,16 +1,27 @@
-import React, { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import './style.css';
 import AuthInputBox from '../../components/AuthInputBox';
 import { signInRequest } from '../../apis';
 import { SignInRequestDto } from '../../apis/request/auth';
 import { PostSignInResponseDto } from '../../apis/response/auth';
 import { ResponseDto } from '../../apis/response';
-import { MAIN_PATH } from '../../constant';
+import { MAIN_PATH, SIGNUP_PATH } from '../../constant';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import useLoginUserStore from '../../stores/login-user-store';
 const SignIn = () => {
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies();
+
+  const {loginUser} = useLoginUserStore();
+
+  useEffect(() => {
+    if(loginUser !== null){
+      alert(loginUser);
+      navigate(MAIN_PATH());
+    }
+  },[])
+
   //   state    //
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -74,7 +85,10 @@ const SignIn = () => {
     navigate(MAIN_PATH());
 
   }
-
+  // function: 회원가입 버튼 클릭   //
+  const onSignUpbuttonClick = () => {
+    navigate(SIGNUP_PATH());
+  }
   return (
     <div id='sign-in-wrap'>
 
@@ -102,7 +116,7 @@ const SignIn = () => {
             <div className='length-line'></div>
             <div className='find-block-text'>{'비밀번호 찾기'}</div>
             <div className='length-line'></div>
-            <div className='find-block-text'>{'회원가입'}</div>
+            <div className='find-block-text' onClick={onSignUpbuttonClick}>{'회원가입'}</div>
           </div>
         </div>
 
