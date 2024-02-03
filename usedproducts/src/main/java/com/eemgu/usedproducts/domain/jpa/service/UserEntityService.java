@@ -2,6 +2,7 @@ package com.eemgu.usedproducts.domain.jpa.service;
 
 import com.eemgu.usedproducts.domain.Entity.UserEntity;
 import com.eemgu.usedproducts.domain.jpa.repository.UserEntityRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

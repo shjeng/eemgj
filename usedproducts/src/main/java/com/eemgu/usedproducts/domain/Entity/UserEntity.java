@@ -38,4 +38,7 @@ public class UserEntity extends BaseEntity{
         address = dto.getAddress();
         detailAddress = dto.getDetailAddress();
     }
+    public void setProfileImage(String profileImage){
+        this.profileImage = profileImage;
+    }
 }
