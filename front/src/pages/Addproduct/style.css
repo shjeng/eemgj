@@ -179,9 +179,9 @@
   background-color: #FFFFFF;
   border-radius: 10px;
   width: 180px;
-  height: 90px;
+  height: 120px;
   padding: 10px;
-  gap: 10px;
+  gap: 8px;
   display: flex;
   flex-direction: column;
   margin-top: 5px;
@@ -194,16 +194,22 @@
   justify-content: center;
   align-items: center;
 }
+.won{
+  margin-left: 10px;
+}
+.category-label{
+  font-size: 16px;
+  font-weight: 600;
+}
 .price-input{
   outline: none;
   border: none;
   font-size: 14px;
-  background-color: #F1F1F1;
+  background-color: inherit;
+  width: 100%;
   
 }
-.price-input::placeholder{
-  color: #656565;
-}
+
 .category-input-button-box{
   width: 100%;
   display: flex;

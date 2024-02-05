@@ -3,16 +3,24 @@ import CategoryButton from '../../components/CategoryButton';
 import './style.css';
 
 const AddProduct = () => {
+  const won = ' ₩ ';
   const titleRef = useRef<HTMLInputElement | null> (null);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
   const imgInputRef = useRef<HTMLInputElement | null>(null);
   const tagInputRef = useRef<HTMLInputElement | null>(null);
+
 
   const [title, setTttle] = useState<string>('');
   const [content,setContent] = useState<string>('');
   const [tag, setTag] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]); // 이미지 미리보기 url 
+
+  // state: spread //
+const priceButtonRef = useRef<HTMLDivElement | null>(null);
+
+  const [price, setPrice] = useState<number>(0);
+  const [commaPrice, setCommaPrice] = useState<string>('0');
 
   const [priceSpread, setPriceSpread] = useState<boolean>(false);
   const [categorySpread, setCategorySpread] = useState<boolean>(false);
@@ -22,13 +30,44 @@ const AddProduct = () => {
   // event handler: 가격 버튼 클릭
   const onPriceButtonClickEvent = () => {
     setPriceSpread(!priceSpread);
+    setCategorySpread(false);
+    setTransactionSpread(false);
   }
+  // 가격 입력 
+  const onPriceChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
+    const value: string = event.target.value;
+    let temp = value.replaceAll(",", "");
+
+    const numericRegex = /^[0-9]+$/;
+    if(numericRegex.test(temp.charAt(temp.length-1))) {
+      const removedCommaValue: number = Number(temp);
+      setCommaPrice(removedCommaValue.toLocaleString());
+    }
+    return;
+  };
+  // 등록 버튼 클릭
+  const onPriceKeyDownEvent = (event: KeyboardEvent<HTMLInputElement>) => {
+    if(commaPrice.length === 0) return;
+    onPriceRegiBtnClickEvent()
+  }
+  const onPriceRegiBtnClickEvent = () => {
+    let temp = commaPrice.replaceAll(",",'');
+    const removeComma: number = Number(temp);
+    setPrice(removeComma);
+    onCategoryButtonClickEvent();
+  }
+
+
   // event handler: 카테고리 버튼 클릭
   const onCategoryButtonClickEvent = () => {
+    setPriceSpread(false);
     setCategorySpread(!categorySpread);
+    setTransactionSpread(false);
   }
   // event handler: 거래방법 버튼 클릭
   const onTransactionButtonClickEvent = () => {
+    setPriceSpread(false);
+    setCategorySpread(false);
     setTransactionSpread(!transactionSpread);
   }
 
@@ -41,6 +80,7 @@ const AddProduct = () => {
     if(event.key !== 'Enter') return;
     contentRef.current?.focus();
   }
+
   // event handler: 상품 등록 content
   const onContentChangeEvent = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const {value} = event.target;
@@ -125,11 +165,13 @@ const AddProduct = () => {
               <CategoryButton text={'가격'} onClickButton={onPriceButtonClickEvent} spread={priceSpread}/>
               {priceSpread &&
                 <div className='price-wrap'>
+                  <div className='category-label'>가격등록</div>
                   <div className='price-input-box'>
-                    <input className='price-input' placeholder={'가격을 입력해주세요.'} />
+                    <div className='won'>{won}</div>
+                    <input className='price-input' placeholder={'가격을 입력해주세요.'} value={commaPrice} onChange={onPriceChangeEvent} onKeyDown={onPriceKeyDownEvent}/>
                   </div>
                   <div className='category-input-button-box'>
-                    <div className='category-input-button'>{'등록'}</div>
+                    <div className='category-input-button' onClick={onPriceRegiBtnClickEvent} ref={priceButtonRef}>{'등록'}</div>
                   </div>
                 </div>
               }
@@ -137,13 +179,17 @@ const AddProduct = () => {
             <div className='category-button-box'>
               <CategoryButton text={'카테고리'} onClickButton={onCategoryButtonClickEvent} spread={categorySpread}/>
               {categorySpread &&
-                <div></div>
+                <div>
+                  <div className='category-label'>가격등록</div>
+                </div>
               }
             </div>
             <div className='category-button-box'>
               <CategoryButton text={'거래방법'} onClickButton={onTransactionButtonClickEvent} spread={transactionSpread}/>
               {transactionSpread &&
-                <div></div>
+                <div>
+                  <div className='category-label'>가격등록</div>
+              </div>
               }
             </div>
         </div>
