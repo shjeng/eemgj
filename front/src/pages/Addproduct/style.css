@@ -174,17 +174,20 @@
   position: relative;
 }
 .price-wrap{
+  width: 180px;
+  height: 120px;
+
+}
+.c-wrap{
   box-shadow: 0px 0px 3px 0.2px;
   position: absolute;
   background-color: #FFFFFF;
-  border-radius: 10px;
-  width: 180px;
-  height: 120px;
-  padding: 10px;
-  gap: 8px;
   display: flex;
   flex-direction: column;
   margin-top: 5px;
+  border-radius: 10px;
+  gap: 8px;
+  padding: 10px;
 }
 .price-input-box{
   background-color: #F1F1F1;
@@ -207,9 +210,13 @@
   font-size: 14px;
   background-color: inherit;
   width: 100%;
-  
 }
-
+.category-wrap{
+  width: 150px;
+}
+.transactions-wrap{
+  width: 100px;
+}
 .category-input-button-box{
   width: 100%;
   display: flex;
@@ -218,7 +225,6 @@
 .price-input-button{
   display: flex;
   width: 100%;
-
 }
 .category-input-button{
   width: 50px;
@@ -230,4 +236,11 @@
   align-items: center;
   padding: 5px 2px;
   border-radius: 60px;
+}
+.cateogory-checkbox-wrap{
+  display: flex;
+  flex-direction: column;
+}
+.cateogory-checkbox-wrap{
+  gap: 8px;
 }

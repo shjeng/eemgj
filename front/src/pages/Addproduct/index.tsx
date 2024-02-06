@@ -1,6 +1,7 @@
-import React, { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import CategoryButton from '../../components/CategoryButton';
 import './style.css';
+import CheckBox from '../../components/CheckBox';
 
 const AddProduct = () => {
   const won = ' ₩ ';
@@ -17,10 +18,28 @@ const AddProduct = () => {
   const [imageUrls, setImageUrls] = useState<string[]>([]); // 이미지 미리보기 url 
 
   // state: spread //
-const priceButtonRef = useRef<HTMLDivElement | null>(null);
+  const priceButtonRef = useRef<HTMLDivElement | null>(null);
+
 
   const [price, setPrice] = useState<number>(0);
   const [commaPrice, setCommaPrice] = useState<string>('0');
+  // category checkbox //
+  const [categorys,setCategorys] = useState<string[]>([]);
+  const [electronic,setElectronic] = useState<string>('');
+  const [car,setCar] = useState<string>('');
+  const [sports,setSports] = useState<string>('');
+  const [animal,setAnimal] = useState<string>('');
+  const [beauty,setBeauty] = useState<string>('');
+  const [clothes,setClothes] = useState<string>('');
+  const [baby,setBabay] = useState<string>('');
+  const [furniture,setFurniture] = useState<string>('');
+  const [stuff,setStuff] = useState<string>('');
+  const [etc,setEtc] = useState<string>('');
+
+  // 거래방법
+  const [direct, setDirect] = useState<string>('direct');
+  const [delivery,setDelevery] = useState<string>('');
+  const [noMatter, setNoMatter] = useState<string>('');
 
   const [priceSpread, setPriceSpread] = useState<boolean>(false);
   const [categorySpread, setCategorySpread] = useState<boolean>(false);
@@ -47,15 +66,26 @@ const priceButtonRef = useRef<HTMLDivElement | null>(null);
   };
   // 등록 버튼 클릭
   const onPriceKeyDownEvent = (event: KeyboardEvent<HTMLInputElement>) => {
-    if(commaPrice.length === 0) return;
+    if(event.key === 'Backspace' && commaPrice.length === 1){
+      setCommaPrice('0');
+      return;
+    }
+    if(event.key !== 'Enter') return;
+    if(categorys.length !== 0){
+      setPriceSpread(false);
+      return;
+    }
     onPriceRegiBtnClickEvent()
   }
   const onPriceRegiBtnClickEvent = () => {
+    onCategoryButtonClickEvent();
+  }
+  useEffect(()=>{
     let temp = commaPrice.replaceAll(",",'');
     const removeComma: number = Number(temp);
     setPrice(removeComma);
-    onCategoryButtonClickEvent();
-  }
+  },[priceSpread]);
+
 
 
   // event handler: 카테고리 버튼 클릭
@@ -64,13 +94,106 @@ const priceButtonRef = useRef<HTMLDivElement | null>(null);
     setCategorySpread(!categorySpread);
     setTransactionSpread(false);
   }
+  // 체크박스 체크박스
+  const onElectronicChk = () => {
+    if(electronic.length === 0){
+      setElectronic("electronic");
+      return;
+    }
+    setElectronic('');
+  }
+  // 차량용품 체크박스
+  const onCarChk = () => {
+    if(car.length === 0){
+      setCar("car");
+      return;
+    }
+    setCar('');
+  }
+  // 스포츠/레저 체크박스 
+  const onSports = () => {
+    if(sports.length === 0){
+      setSports("sports");
+      return;
+    }
+    setSports('');
+  }
+  const onAnimals = () => {
+    if(animal.length === 0){
+      setAnimal("animal");
+      return;
+    }
+    setAnimal('');
+  }
+  const onBeauty = () => {
+    if(beauty.length === 0){
+      setBeauty("beauty");
+      return;
+    }
+    setBeauty('');
+  }
+  const onClothes = () => {
+    if(clothes.length === 0){
+      setClothes("clothes");
+      return;
+    }
+    setClothes('');
+  }
+  const onBaby = () => {
+    if(baby.length === 0){
+      setBabay("baby");
+      return;
+    }
+    setBabay('');
+  }
+  const onFurniture = () => {
+    if(furniture.length === 0){
+      setFurniture("furniture");
+      return;
+    }
+    setFurniture('');
+  }
+  const onStuff = () => {
+    if(stuff.length === 0){
+      setStuff("stuff");
+      return;
+    }
+    setStuff('');
+  }
+  const onEtc = () => {
+    if(etc.length === 0){
+      setEtc("etc");
+      return;
+    }
+    setEtc('');
+  }
   // event handler: 거래방법 버튼 클릭
   const onTransactionButtonClickEvent = () => {
     setPriceSpread(false);
     setCategorySpread(false);
     setTransactionSpread(!transactionSpread);
   }
-
+  const onDirectChk = () => {
+    if(direct.length === 0){
+      setDirect("direct");
+      return;
+    }
+    setDirect('');
+  }
+  const onDeliveryChk = () => {
+    if(delivery.length === 0){
+      setDelevery("delivery");
+      return;
+    }
+    setDelevery('');
+  }
+  const onNoMatterChk = () => {
+    if(noMatter.length === 0){
+      setNoMatter("noMatter");
+      return;
+    }
+    setNoMatter('');
+  }
   // event handler: 제목  //
   const onTitleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
     const {value}= event.target;
@@ -90,9 +213,6 @@ const priceButtonRef = useRef<HTMLDivElement | null>(null);
     contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
 
   }
-
-
-
 
   // event handler: 이미지 아이콘 클릭 
   const onImgInputButtonClick = () => {
@@ -164,7 +284,7 @@ const priceButtonRef = useRef<HTMLDivElement | null>(null);
             <div className='category-button-box'>
               <CategoryButton text={'가격'} onClickButton={onPriceButtonClickEvent} spread={priceSpread}/>
               {priceSpread &&
-                <div className='price-wrap'>
+                <div className='c-wrap price-wrap'>
                   <div className='category-label'>가격등록</div>
                   <div className='price-input-box'>
                     <div className='won'>{won}</div>
@@ -179,16 +299,33 @@ const priceButtonRef = useRef<HTMLDivElement | null>(null);
             <div className='category-button-box'>
               <CategoryButton text={'카테고리'} onClickButton={onCategoryButtonClickEvent} spread={categorySpread}/>
               {categorySpread &&
-                <div>
-                  <div className='category-label'>가격등록</div>
+                <div className='c-wrap category-wrap'>
+                  <div className='category-label'>카테고리(최대 3개)</div>
+                  <div className='cateogory-checkbox-wrap'>
+                    <CheckBox value={electronic} label='전자기기' onClick={onElectronicChk} />
+                    <CheckBox value={car} label='차량용품' onClick={onCarChk} />
+                    <CheckBox value={sports} label='스포츠/레저' onClick={onSports} />
+                    <CheckBox value={animal} label='반려동물' onClick={onAnimals} />
+                    <CheckBox value={beauty} label='미용용품' onClick={onBeauty} />
+                    <CheckBox value={clothes} label='의류' onClick={onClothes} />
+                    <CheckBox value={baby} label='아동용품' onClick={onBaby} />
+                    <CheckBox value={furniture} label='가구' onClick={onFurniture} />
+                    <CheckBox value={stuff} label='잡화' onClick={onStuff} />
+                    <CheckBox value={etc} label='기타' onClick={onEtc} />
+                  </div>
                 </div>
               }
             </div>
             <div className='category-button-box'>
               <CategoryButton text={'거래방법'} onClickButton={onTransactionButtonClickEvent} spread={transactionSpread}/>
               {transactionSpread &&
-                <div>
-                  <div className='category-label'>가격등록</div>
+                <div className='c-wrap transactions-wrap'>
+                <div className='category-label'>거래방법</div>
+                <div className='cateogory-checkbox-wrap'>
+                  <CheckBox value={direct} label='직거래' onClick={onDirectChk} />
+                  <CheckBox value={delivery} label='택배거래' onClick={onDeliveryChk} />
+                  <CheckBox value={noMatter} label='상관없음' onClick={onNoMatterChk} />
+                </div>
               </div>
               }
             </div>
