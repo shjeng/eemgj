@@ -45,22 +45,23 @@ const AuthInputBox = forwardRef<HTMLInputElement, Props>((props:Props, ref) => {
       <div className='label-icon'>
         <div className='label'>{label}</div>
         {icon && // 아이콘이 있냐, 없냐 icon이 false면 authChk 받으면 안 됨
-        <div className='icon-box18'>
+        <div className='icon-box-18'>
           {authChk ? <div className='icon auth-ok-icon'></div> : <div className='icon auth-no-icon'></div>}
         </div>}
+
       </div>
 
       <div className='input-box'>
         {isButton ?
         <>
           {textGray ? // text 색상 회색 확인
-            <input className={error ? 'error button input' : 'garytext button input'} type={type} placeholder={placeholder} ref={ref} value={value} onChange={onChangeHandler} readOnly={isReadonly} onKeyDown={onKeyDownHandler}/> :
-            <input className={error ? 'error button input' : 'button input'} type={type} placeholder={placeholder} ref={ref} value={value} onChange={onChangeHandler} readOnly={isReadonly} onKeyDown={onKeyDownHandler}/> 
+            <input className={error ? 'error button input-auth' : 'garytext button input-auth'} type={type} placeholder={placeholder} ref={ref} value={value} onChange={onChangeHandler} readOnly={isReadonly} onKeyDown={onKeyDownHandler}/> :
+            <input className={error ? 'error button input-auth' : 'button input-auth'} type={type} placeholder={placeholder} ref={ref} value={value} onChange={onChangeHandler} readOnly={isReadonly} onKeyDown={onKeyDownHandler}/> 
           } 
           </>
           
         :
-        <input className={error ? 'error input' : 'input'} type={type} placeholder={placeholder} ref={ref} value={value} onChange={onChangeHandler} readOnly={isReadonly} onKeyDown={onKeyDownHandler}/>
+        <input className={error ? 'error input-auth' : 'input-auth'} type={type} placeholder={placeholder} ref={ref} value={value} onChange={onChangeHandler} readOnly={isReadonly} onKeyDown={onKeyDownHandler}/>
         }
         {isButton && // 버튼이 존재하냐 안 하냐.
         <div className='auth-button' onClick={onButtonClickHandler}>{button_text}</div>

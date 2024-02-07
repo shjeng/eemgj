@@ -15,21 +15,34 @@
   font-weight: 500;
   padding-left: 40px
 }
+.icon-box-18{
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-ok-icon{
+  background-image: url(assets/ok.png);
+}
+.auth-no-icon{
+  background-image: url(assets/no.png);
+}
 .input-box{
   display: flex;
   justify-content: center;
 }
-.input{
+.input-auth{
   outline: none;
   border: none;
-  width: 80%;
   border-bottom: 1px solid #BBBBBB;
+  width: 80%;
   padding: 5px;
 }
 .button{
   width: 70%;
 }
-.input::placeholder{
+.input-auth::placeholder{
   font-size: 16px;
 }
 .auth-button{

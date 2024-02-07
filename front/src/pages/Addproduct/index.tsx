@@ -2,8 +2,13 @@ import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from '
 import CategoryButton from '../../components/CategoryButton';
 import './style.css';
 import CheckBox from '../../components/CheckBox';
+import { useCookies } from 'react-cookie';
+import { fileUploadRequest } from '../../apis';
 
 const AddProduct = () => {
+
+  const [cookies, setCookies] = useCookies();
+
   const won = ' ₩ ';
   const titleRef = useRef<HTMLInputElement | null> (null);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -15,7 +20,8 @@ const AddProduct = () => {
   const [content,setContent] = useState<string>('');
   const [tag, setTag] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>([]); // 이미지 미리보기 url 
+  const [imageUrls, setImageUrls] = useState<string[]>([]); // 이미지 미리보기 url
+  const imageFiles: File[] = [];
 
   // state: spread //
   const priceButtonRef = useRef<HTMLDivElement | null>(null);
@@ -37,6 +43,7 @@ const AddProduct = () => {
   const [etc,setEtc] = useState<string>('');
 
   // 거래방법
+  const [transaction, setTransaction] = useState<string>('direct');
   const [direct, setDirect] = useState<string>('direct');
   const [delivery,setDelevery] = useState<string>('');
   const [noMatter, setNoMatter] = useState<string>('');
@@ -225,12 +232,18 @@ const AddProduct = () => {
     let imagesUrlList = [...imageUrls];
     for(let i=0;i<images.length;i++){
       const currentImgUrl = URL.createObjectURL(images[i]);
+      imageFiles.push(images[i]);
       imagesUrlList.push(currentImgUrl);
     }
     if(imagesUrlList.length > 10){
       imagesUrlList = imagesUrlList.slice(0,10);
+      while(imageFiles.length < 11){
+        imageFiles.pop();
+      }
+      imageFiles.slice(0,10);
     }
     setImageUrls(imagesUrlList);
+
   }
   // event handler: 이미지 X 클릭 
   const onImageCloseClickEvent = (deleteIndex: number) => {
@@ -261,6 +274,20 @@ const AddProduct = () => {
       
     }
   }
+
+  // event handler: 작성 버튼 클릭
+  const onRegistrationButtonClick = async() => {
+    const accessToken = cookies.accessToken;
+    const urls:string[] = [];
+    if(!accessToken) return;
+    for(const file of imageFiles){
+      const data = new FormData();
+      data.append('file',file);
+      const getUrl = await fileUploadRequest(data,accessToken);
+      if(getUrl) urls.push(getUrl);
+    }
+  }
+
   return (
 
   <>
@@ -359,7 +386,7 @@ const AddProduct = () => {
       </div>
 
       <div className='middle-right'>
-          <div className='submit-button'>{'등록'}</div>
+          <div className='submit-button' onClick={onRegistrationButtonClick}>{'등록'}</div>
           <div className='middle-right-bottom'>
             <div className='icon-box-4137' onClick={onImgInputButtonClick}>
               <div className='icon img-button'></div>

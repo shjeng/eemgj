@@ -2,9 +2,13 @@ import axios from "axios";
 import { ResponseDto } from "./response";
 import { GetNicknameDuplChk, PostEmailAuthChkDto, PostEmailAuthDto, PostSignInResponseDto, PostSignUpResponseDto } from "./response/auth";
 import { EmailAuthChkRequestDto, EmailAuthRequestDto, SignInRequestDto, SignUpRequestDto } from "./request/auth";
+import { error } from "console";
 
 const DOMAIN = 'http://localhost:8080';
 const API_DOMAIN = `${DOMAIN}/api`;
+const authorization = (accessToken: string) => {
+  return {headers: {authorization: `Bearer ${accessToken}`}}
+}
 // ========================== get ========================== // 
 // 닉네임 중복 요청
 const NICK_NAME_DUPLE_CHK = (nickname: string) => `${API_DOMAIN}/auth/nickname-check?nickname=${nickname}`;
@@ -82,4 +86,25 @@ export const signInRequest = async(requestBody: SignInRequestDto) => {
         return responseBody;
       })
   return result;
+}
+
+// 파일 업로드 
+const FILE_UPLOAD_URL = () => `${DOMAIN}/file/upload`;
+const headers = (accessToken:string) =>{
+  return {headers:
+    {'Content-Type':'multipart/form-data'
+    ,Authorization: `Bearer ${accessToken}`}
+  }; // 헤더 설정
+}
+export const fileUploadRequest = async(data:FormData,accessToken:string) => {
+  const result = await axios.post(FILE_UPLOAD_URL(),data,headers(accessToken))
+      .then(response=>{
+        const responseBody: string = response.data;
+        return responseBody;
+      })
+      .catch(error => {
+        return null;
+      });
+  return result;
+
 }
