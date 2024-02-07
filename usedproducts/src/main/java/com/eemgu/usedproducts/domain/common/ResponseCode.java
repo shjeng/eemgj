@@ -11,7 +11,9 @@ public interface ResponseCode {
     String DUPLICATE_NICKNAME = "DN";
     String SIGN_IN_FAIL = "SF";
     String CERTIFICATION_FAIL = "CF";
+    String NOT_EXISTED_USER = "NU";
 
+    // HTTP Status 500
     String MAIL_FAIL = "MF";
     String DATABASE_ERROR = "DBE";
 }

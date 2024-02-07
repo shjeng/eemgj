@@ -11,7 +11,7 @@ public interface ResponseMessage {
     String DUPLICATE_NICKNAME = "Duplicate nickname.";
     String SIGN_IN_FAIL = "Login information mismatch.";
     String CERTIFICATION_FAIL = "Certification faild.";
-
+    String NOT_EXISTED_BOARD = "this board does not exist.";
     // 500
     String MAIL_FAIL = "Mail send failed.";
     String DATABASE_ERROR = "Databse error.";
