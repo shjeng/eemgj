@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -17,4 +20,17 @@ public class TagEntity {
 
     @Column(name = "tag_name")
     private String name;
+
+    public TagEntity(String name) {
+        this.name = name;
+    }
+
+    // tag 받는 메서드
+    public static List<TagEntity> dtoTags(String[] dtoTags){
+        List<TagEntity> tagEntities = new ArrayList<>();
+        for (String dtoTag : dtoTags) {
+            tagEntities.add(new TagEntity(dtoTag));
+        }
+        return tagEntities;
+    }
 }

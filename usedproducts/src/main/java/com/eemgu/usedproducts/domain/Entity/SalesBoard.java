@@ -1,5 +1,7 @@
 package com.eemgu.usedproducts.domain.Entity;
 
+import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardRequestDto;
+import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardResponseDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +27,11 @@ public class SalesBoard extends BaseEntity{
     private List<SalesBoardCategory> salesBoardCategories = new ArrayList<>();
     @OneToMany(mappedBy = "salesBoard")
     private List<ImageEntity> images = new ArrayList<>();
+
+    public SalesBoard(SalesBoardRequestDto dto) {
+        title = dto.getTitle();
+        content = dto.getContent();
+        price = dto.getPrice();
+        transaction = dto.getTransaction();
+    }
 }
