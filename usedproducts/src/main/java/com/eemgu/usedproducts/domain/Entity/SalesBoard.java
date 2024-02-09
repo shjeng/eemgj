@@ -23,11 +23,13 @@ public class SalesBoard extends BaseEntity{
     private String content;
     private Integer price;
     private String transaction;
+
     @OneToMany(mappedBy = "salesBoard")
     private List<SalesBoardCategory> salesBoardCategories = new ArrayList<>();
     @OneToMany(mappedBy = "salesBoard")
     private List<ImageEntity> images = new ArrayList<>();
-
+    @OneToMany(mappedBy = "salesBoard")
+    private List<SalesBoardTag> tags = new ArrayList<>();
     public SalesBoard(SalesBoardRequestDto dto) {
         title = dto.getTitle();
         content = dto.getContent();

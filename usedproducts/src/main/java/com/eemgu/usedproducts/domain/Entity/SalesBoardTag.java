@@ -19,4 +19,9 @@ public class SalesBoardTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     private TagEntity tag;
+
+    public SalesBoardTag(SalesBoard salesBoard, TagEntity tag) {
+        this.salesBoard = salesBoard;
+        this.tag = tag;
+    }
 }
