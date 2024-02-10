@@ -1,7 +1,7 @@
 package com.eemgu.usedproducts.web.controller;
 
-import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardRequestDto;
-import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardResponseDto;
+import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto;
+import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardWriteResponseDto;
 import com.eemgu.usedproducts.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,8 @@ public class BoardController {
 
     private final BoardService boardService;
     @PostMapping("/sales")
-    public ResponseEntity<? super SalesBoardResponseDto> salesBoardWrite(
-            @RequestBody SalesBoardRequestDto dto, @AuthenticationPrincipal String email){
+    public ResponseEntity<? super SalesBoardWriteResponseDto> salesBoardWrite(
+            @RequestBody SalesBoardWriteRequestDto dto, @AuthenticationPrincipal String email){
         return boardService.postSalesBoardWrite(dto,email);
     }
 }

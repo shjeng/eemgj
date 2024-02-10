@@ -22,5 +22,8 @@ public class ImageEntity {
     @JoinColumn(name = "sales_board_id")
     private SalesBoard salesBoard;
 
-
+    public ImageEntity(String imageUrl, SalesBoard salesBoard) {
+        this.imageUrl = imageUrl;
+        this.salesBoard = salesBoard;
+    }
 }

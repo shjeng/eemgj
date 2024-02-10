@@ -1,10 +1,10 @@
 package com.eemgu.usedproducts.domain.service;
 
-import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardRequestDto;
-import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardResponseDto;
+import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto;
+import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardWriteResponseDto;
 import org.springframework.http.ResponseEntity;
 
 public interface BoardService {
 
-    ResponseEntity<? super SalesBoardResponseDto> postSalesBoardWrite(SalesBoardRequestDto dto, String email);
+    ResponseEntity<? super SalesBoardWriteResponseDto> postSalesBoardWrite(SalesBoardWriteRequestDto dto, String email);
 }

@@ -3,13 +3,20 @@ import CategoryButton from '../../components/CategoryButton';
 import './style.css';
 import CheckBox from '../../components/CheckBox';
 import { useCookies } from 'react-cookie';
-import { fileUploadRequest } from '../../apis';
+import { fileUploadRequest, salesBoardWriteRequest } from '../../apis';
+import { count } from 'console';
+import { SalesBoardWriteRequestDto } from '../../apis/request/board';
+import { PostSalesBoardWriteResponseDto } from '../../apis/response/board';
+import { ResponseDto } from '../../apis/response';
+import { useNavigate } from 'react-router-dom';
+import { SALES_BOARD_DETAIL } from '../../constant';
 
 const AddProduct = () => {
 
   const [cookies, setCookies] = useCookies();
+  const navigate = useNavigate();
 
-  const won = ' ₩ ';
+  const won = ' ₩ ';  
   const titleRef = useRef<HTMLInputElement | null> (null);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
   const imgInputRef = useRef<HTMLInputElement | null>(null);
@@ -31,6 +38,7 @@ const AddProduct = () => {
   const [commaPrice, setCommaPrice] = useState<string>('0');
   // category checkbox //
   const [categorys,setCategorys] = useState<string[]>([]);
+  const [categoryCount, setCategoryCount] = useState<number>(0);
   const [electronic,setElectronic] = useState<string>('');
   const [car,setCar] = useState<string>('');
   const [sports,setSports] = useState<string>('');
@@ -87,6 +95,7 @@ const AddProduct = () => {
   const onPriceRegiBtnClickEvent = () => {
     onCategoryButtonClickEvent();
   }
+
   useEffect(()=>{
     let temp = commaPrice.replaceAll(",",'');
     const removeComma: number = Number(temp);
@@ -101,79 +110,150 @@ const AddProduct = () => {
     setCategorySpread(!categorySpread);
     setTransactionSpread(false);
   }
-  // 체크박스 체크박스
+  // 전자제품 체크박스
   const onElectronicChk = () => {
     if(electronic.length === 0){
+      setCategoryCount(categoryCount+1);
       setElectronic("electronic");
+      let newCategory = [...categorys];
+      newCategory.push(electronic);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'electronic');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setElectronic('');
   }
   // 차량용품 체크박스
   const onCarChk = () => {
     if(car.length === 0){
+      setCategoryCount(categoryCount+1);
       setCar("car");
+      let newCategory = [...categorys];
+      newCategory.push(car);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'car');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setCar('');
   }
   // 스포츠/레저 체크박스 
   const onSports = () => {
     if(sports.length === 0){
+      setCategoryCount(categoryCount+1);
       setSports("sports");
+      let newCategory = [...categorys];
+      newCategory.push(sports);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'sports');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setSports('');
   }
   const onAnimals = () => {
     if(animal.length === 0){
+      setCategoryCount(categoryCount+1);
       setAnimal("animal");
+      let newCategory = [...categorys];
+      newCategory.push(animal);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'animal');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setAnimal('');
   }
   const onBeauty = () => {
     if(beauty.length === 0){
+      setCategoryCount(categoryCount+1);
       setBeauty("beauty");
+      let newCategory = [...categorys];
+      newCategory.push(beauty);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'beauty');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setBeauty('');
   }
   const onClothes = () => {
     if(clothes.length === 0){
+      setCategoryCount(categoryCount+1);
       setClothes("clothes");
+      let newCategory = [...categorys];
+      newCategory.push(clothes);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'clothes');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setClothes('');
   }
   const onBaby = () => {
     if(baby.length === 0){
+      setCategoryCount(categoryCount+1);
       setBabay("baby");
+      let newCategory = [...categorys];
+      newCategory.push(baby);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'baby');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setBabay('');
   }
   const onFurniture = () => {
     if(furniture.length === 0){
+      setCategoryCount(categoryCount+1);
       setFurniture("furniture");
+      let newCategory = [...categorys];
+      newCategory.push(furniture);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'furniture');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setFurniture('');
   }
   const onStuff = () => {
     if(stuff.length === 0){
+      setCategoryCount(categoryCount+1);
       setStuff("stuff");
+      let newCategory = [...categorys];
+      newCategory.push(stuff);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'stuff');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setStuff('');
   }
   const onEtc = () => {
     if(etc.length === 0){
+      setCategoryCount(categoryCount+1);
       setEtc("etc");
+      let newCategory = [...categorys];
+      newCategory.push(etc);
+      setCategorys(newCategory);
       return;
     }
+    let newCategory = categorys.filter(c=> c !== 'etc');
+    setCategorys(newCategory);
+    setCategoryCount(categoryCount-1);
     setEtc('');
   }
+
   // event handler: 거래방법 버튼 클릭
   const onTransactionButtonClickEvent = () => {
     setPriceSpread(false);
@@ -277,15 +357,40 @@ const AddProduct = () => {
 
   // event handler: 작성 버튼 클릭
   const onRegistrationButtonClick = async() => {
+    if(categoryCount===0){
+      alert('카테고리를 선택해주세요.');
+      return
+    }
+    if(categoryCount >3){
+      alert('선택 가능한 카테고리의 수는 3개까지 입니다.');
+      return;
+    }
     const accessToken = cookies.accessToken;
-    const urls:string[] = [];
     if(!accessToken) return;
+    const urls:string[] = [];
     for(const file of imageFiles){
       const data = new FormData();
       data.append('file',file);
       const getUrl = await fileUploadRequest(data,accessToken);
       if(getUrl) urls.push(getUrl);
     }
+    const requestBody:SalesBoardWriteRequestDto = {title,content,price,categorys,transaction,tags,urls};
+    salesBoardWriteRequest(requestBody,accessToken).then(salesBoardWriteResponse);
+  }
+  const salesBoardWriteResponse = (responseBody: PostSalesBoardWriteResponseDto | ResponseDto | null) => {  
+    if(!responseBody) {
+      alert('서버로부터 응답이 없습니다.');
+      return;
+    }
+    const {code} = responseBody;
+    if(code === 'VF') alert('유효성 검사 실패');
+    if(code === 'NU') alert('존재하지 않는 회원');
+    if(code === 'DBE') alert('데이터베이스 오류');
+    if(code !== 'SU'){
+      return;
+    }
+    const {boardId} = responseBody as PostSalesBoardWriteResponseDto;
+    navigate(SALES_BOARD_DETAIL(boardId)); // 게시물 상세보기 페이지로 이동 
   }
 
   return (

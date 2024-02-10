@@ -1,15 +1,9 @@
 package com.eemgu.usedproducts.domain.service.implement;
 
-import com.eemgu.usedproducts.domain.Entity.SalesBoard;
-import com.eemgu.usedproducts.domain.Entity.SalesBoardTag;
-import com.eemgu.usedproducts.domain.Entity.TagEntity;
-import com.eemgu.usedproducts.domain.Entity.UserEntity;
-import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardRequestDto;
-import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardResponseDto;
-import com.eemgu.usedproducts.domain.jpa.service.SalesBoardService;
-import com.eemgu.usedproducts.domain.jpa.service.SalesBoardTagService;
-import com.eemgu.usedproducts.domain.jpa.service.TagService;
-import com.eemgu.usedproducts.domain.jpa.service.UserEntityService;
+import com.eemgu.usedproducts.domain.Entity.*;
+import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto;
+import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardWriteResponseDto;
+import com.eemgu.usedproducts.domain.jpa.service.*;
 import com.eemgu.usedproducts.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,16 +21,24 @@ public class BoardServiceImplement implements BoardService {
     private final SalesBoardService salesBoardService;
     private final TagService tagService;
     private final SalesBoardTagService salesBoardTagService;
+    private final ImageService imageService;
     @Override
-    public ResponseEntity<? super SalesBoardResponseDto> postSalesBoardWrite(SalesBoardRequestDto dto, String email) {
+    public ResponseEntity<? super SalesBoardWriteResponseDto> postSalesBoardWrite(SalesBoardWriteRequestDto dto, String email) {
         Long boardId = null;
         try {
             Optional<UserEntity> optionalUser = userEntityService.findByEmail(email);
-            if(optionalUser.isPresent()) return SalesBoardResponseDto.unauthorizedEmail();
+            if(optionalUser.isEmpty()) return SalesBoardWriteResponseDto.unauthorizedEmail();
             SalesBoard salesBoard = new SalesBoard(dto);
             SalesBoard saveSalesBoard = salesBoardService.save(salesBoard); // 게시물 저장
             boardId = saveSalesBoard.getId();
-            
+
+            String[] imageUrls = dto.getImageUrls();
+            List<ImageEntity> imageEntityList = new ArrayList<>();
+            for(String imgUrl : imageUrls){
+                imageEntityList.add(new ImageEntity(imgUrl,saveSalesBoard));
+            }
+            imageService.saveAll(imageEntityList); // 이미지 저장
+
             String[] tags = dto.getTags();
             List<TagEntity> tagEntities = TagEntity.dtoTags(tags);
             List<TagEntity> saveTags = tagService.saveAll(tagEntities); // 게시물 태그 저장
@@ -46,8 +48,8 @@ public class BoardServiceImplement implements BoardService {
             salesBoardTagService.saveAll(salesBoardTags);
         } catch (Exception e){
             e.printStackTrace();
-            SalesBoardResponseDto.databaseError();
+            SalesBoardWriteResponseDto.databaseError();
         }
-        return SalesBoardResponseDto.success(boardId);
+        return SalesBoardWriteResponseDto.success(boardId);
     }
 }

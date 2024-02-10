@@ -3,6 +3,8 @@ import { ResponseDto } from "./response";
 import { GetNicknameDuplChk, PostEmailAuthChkDto, PostEmailAuthDto, PostSignInResponseDto, PostSignUpResponseDto } from "./response/auth";
 import { EmailAuthChkRequestDto, EmailAuthRequestDto, SignInRequestDto, SignUpRequestDto } from "./request/auth";
 import { error } from "console";
+import { PostSalesBoardWriteResponseDto } from "./response/board";
+import { SalesBoardWriteRequestDto } from "./request/board";
 
 const DOMAIN = 'http://localhost:8080';
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -78,6 +80,21 @@ export const signInRequest = async(requestBody: SignInRequestDto) => {
   const result = await axios.post(SIGN_IN(),requestBody)
       .then(response => {
         const responseBody: PostSignInResponseDto  = response.data;
+        return responseBody;
+      })
+      .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        return responseBody;
+      })
+  return result;
+}
+// 판매 게시물 작성
+const SALES_BOARD_WRITE = () => `${API_DOMAIN}/board/sales`;
+export const salesBoardWriteRequest = async(requestBody:SalesBoardWriteRequestDto,accessToken:string) => {
+  const result = await axios.post(SALES_BOARD_WRITE(),authorization(accessToken))
+      .then(response => {
+        const responseBody: PostSalesBoardWriteResponseDto = response.data;
         return responseBody;
       })
       .catch(error => {
