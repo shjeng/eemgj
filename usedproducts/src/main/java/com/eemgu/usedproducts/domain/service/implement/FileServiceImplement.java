@@ -25,7 +25,6 @@ public class FileServiceImplement implements FileService {
     private final UserEntityService userEntityService;
     @Override
     public String upload(MultipartFile file, String email) {
-        log.info("들어왔음{}{}",file,email);
         if(file.isEmpty()) return null;
         String originFileName = file.getOriginalFilename();
         String extension = Objects.requireNonNull(originFileName).substring(originFileName.lastIndexOf(".")); // 확장자
@@ -41,7 +40,6 @@ public class FileServiceImplement implements FileService {
             e.printStackTrace();
             return null;
         }
-        String url = fileUrl + saveFileName;
-        return url;
+        return fileUrl + saveFileName;
     }
 }

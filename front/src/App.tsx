@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import Container from './layouts/Container';
 import Main from './pages/Main';
-import { ADD_PRODUCT, LOGIN_PATH, MAIN_PATH, SIGNUP_PATH } from './constant';
+import { ADD_PRODUCT, LOGIN_PATH, MAIN_PATH, SALES_BOARD_DETAIL, SIGNUP_PATH } from './constant';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import { useCookies } from 'react-cookie';
 import useLoginUserStore from './stores/login-user-store';
 import OurNegighborhoodProducts from './pages/OurNeighborhoodProducts';
 import AddProduct from './pages/Addproduct';
+import SalesBoardDetail from './pages/SalesBoardDetail';
 
 function App() {
   const [cookies, setCookie] = useCookies();
@@ -35,6 +36,7 @@ function App() {
         <Route path={SIGNUP_PATH()} element={<SignUp/>}></Route>
         <Route path={LOGIN_PATH()} element={<SignIn />}></Route>
         <Route path={ADD_PRODUCT()} element={<AddProduct />}></Route>
+        <Route path={SALES_BOARD_DETAIL()} element={<SalesBoardDetail />}></Route>
       </Route>
     </Routes>
 

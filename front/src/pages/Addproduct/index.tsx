@@ -390,7 +390,7 @@ const AddProduct = () => {
       return;
     }
     const {boardId} = responseBody as PostSalesBoardWriteResponseDto;
-    navigate(SALES_BOARD_DETAIL(boardId)); // 게시물 상세보기 페이지로 이동 
+    navigate(`${SALES_BOARD_DETAIL()}/boardId=${boardId}`); // 게시물 상세보기 페이지로 이동 
   }
 
   return (

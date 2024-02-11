@@ -23,13 +23,18 @@ public class SalesBoard extends BaseEntity{
     private Integer price;
     private String transaction;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
     @OneToMany(mappedBy = "salesBoard")
     private List<SalesBoardCategory> salesBoardCategories = new ArrayList<>();
     @OneToMany(mappedBy = "salesBoard")
     private List<ImageEntity> images = new ArrayList<>();
     @OneToMany(mappedBy = "salesBoard")
     private List<SalesBoardTag> tags = new ArrayList<>();
-    public SalesBoard(SalesBoardWriteRequestDto dto) {
+    public SalesBoard(SalesBoardWriteRequestDto dto, UserEntity userEntity) {
+        this.userEntity = userEntity;
         title = dto.getTitle();
         content = dto.getContent();
         price = dto.getPrice();

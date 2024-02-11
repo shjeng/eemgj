@@ -28,7 +28,8 @@ public class BoardServiceImplement implements BoardService {
         try {
             Optional<UserEntity> optionalUser = userEntityService.findByEmail(email);
             if(optionalUser.isEmpty()) return SalesBoardWriteResponseDto.unauthorizedEmail();
-            SalesBoard salesBoard = new SalesBoard(dto);
+            UserEntity userEntity = optionalUser.get();
+            SalesBoard salesBoard = new SalesBoard(dto,userEntity);
             SalesBoard saveSalesBoard = salesBoardService.save(salesBoard); // 게시물 저장
             boardId = saveSalesBoard.getId();
 
