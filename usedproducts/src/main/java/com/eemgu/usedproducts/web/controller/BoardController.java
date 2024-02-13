@@ -21,7 +21,6 @@ public class BoardController {
     @GetMapping("/get-sales-board")
     public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoard(
             @RequestParam(name = "boardId") Long boardId){
-        log.info("게시물 아이디 : {}",boardId);
         return boardService.getSalesBoardDetail(boardId);
     }
 
