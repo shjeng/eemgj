@@ -1,6 +1,7 @@
 package com.eemgu.usedproducts.domain.jpa.service;
 
 import com.eemgu.usedproducts.domain.Entity.ImageEntity;
+import com.eemgu.usedproducts.domain.Entity.SalesBoard;
 import com.eemgu.usedproducts.domain.jpa.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,11 @@ import java.util.List;
 public class ImageService {
     private final ImageRepository imageRepository;
 
+    public List<ImageEntity> findBySalesBoard(SalesBoard salesBoard){
+        return imageRepository.findBySalesBoard(salesBoard);
+    }
     public void saveAll(List<ImageEntity> images){
         imageRepository.saveAll(images);
     }
+
 }

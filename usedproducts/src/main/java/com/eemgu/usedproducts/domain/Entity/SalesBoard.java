@@ -4,6 +4,7 @@ import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,16 @@ public class SalesBoard extends BaseEntity{
     @GeneratedValue
     @Column(name = "sales_board_id")
     private Long id;
-
+    @Column(name = "sales_board_title")
     private String title;
+    @Column(name = "sales_board_content")
     private String content;
+    @Column(name = "sales_board_price")
     private Integer price;
-    private String transaction;
+    @Column(name = "sales_board_transaction")
+    private String transaction; // 거래 방법
+    @Column(name = "sales_board_salesCompleted")
+    private boolean salesCompleted = false; // 거래 완료 여부
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

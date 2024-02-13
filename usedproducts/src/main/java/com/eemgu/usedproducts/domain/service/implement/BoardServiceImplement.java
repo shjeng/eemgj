@@ -1,7 +1,10 @@
 package com.eemgu.usedproducts.domain.service.implement;
 
 import com.eemgu.usedproducts.domain.Entity.*;
+import com.eemgu.usedproducts.domain.dto.Object.ProfileImgNickname;
+import com.eemgu.usedproducts.domain.dto.Object.SalesBoardDetailDto;
 import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto;
+import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardDetailResponseDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardWriteResponseDto;
 import com.eemgu.usedproducts.domain.jpa.service.*;
 import com.eemgu.usedproducts.domain.service.BoardService;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,53 @@ public class BoardServiceImplement implements BoardService {
     private final TagService tagService;
     private final SalesBoardTagService salesBoardTagService;
     private final ImageService imageService;
+    private final SalesBoardCategoryService salesBoardCategoryService;
+    // get
+
+
+    @Override
+    public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoardDetail(Long boardId) {
+        SalesBoardDetailDto salesBoardDetailDto;
+        ProfileImgNickname profileImgNickname;
+        try{
+            if(boardId == null) return SalesBoardDetailResponseDto.noExistSalesBoard();
+            Optional<SalesBoard> boardOptional = salesBoardService.findFetchCategorysImagesTagsById(boardId);
+            if(boardOptional.isEmpty()) return SalesBoardDetailResponseDto.noExistSalesBoard();
+
+            SalesBoard salesBoard = boardOptional.get();
+            // 다대다 엔티티
+            List<SalesBoardTag> salesBoardTags = salesBoard.getTags();
+            List<Category> categoryEntitys = salesBoardCategoryService.findFetchCategoryBySalesBoard(salesBoard);
+            List<ImageEntity> images = imageService.findBySalesBoard(salesBoard);
+            // 아래는 dto에 넣을 데이터
+            UserEntity userEntity = salesBoard.getUserEntity();
+            List<String> getImages = images.stream().map(ImageEntity::getImageUrl).toList();
+            List<String> getTags = salesBoardTags.stream().map(t -> t.getTag().getName()).toList(); // dto에 담아줄 tags
+            List<String> getCategorys = categoryEntitys.stream().map(Category::getName).toList();
+
+            salesBoardDetailDto = SalesBoardDetailDto.builder()
+                    .categorys(getCategorys)
+                    .address(userEntity.getAddress())
+                    .title(salesBoard.getTitle())
+                    .content(salesBoard.getContent())
+                    .salesCompleted(salesBoard.isSalesCompleted())
+                    .writeDateTime(salesBoard.getCreateDate())
+                    .salesBoardImages(getImages)
+                    .build();
+
+            profileImgNickname = ProfileImgNickname.builder()
+                    .profileImg(userEntity.getProfileImage())
+                    .email(userEntity.getEmail())
+                    .nickname(userEntity.getNickname())
+                    .build();
+        } catch(Exception e){
+            e.printStackTrace();
+            return SalesBoardDetailResponseDto.databaseError();
+        }
+        return SalesBoardDetailResponseDto.success(salesBoardDetailDto,profileImgNickname);
+    }
+
+    // post
     @Override
     public ResponseEntity<? super SalesBoardWriteResponseDto> postSalesBoardWrite(SalesBoardWriteRequestDto dto, String email) {
         Long boardId = null;
