@@ -3,6 +3,7 @@
   width: 100%;
   top:0px;
   background-color: #ffffff;
+  z-index: 1000;
 }
 .header-container{
   min-width: 1280px;

@@ -2,8 +2,8 @@ package com.eemgu.usedproducts.domain.dto.response.board;
 
 import com.eemgu.usedproducts.domain.common.ResponseCode;
 import com.eemgu.usedproducts.domain.common.ResponseMessage;
-import com.eemgu.usedproducts.domain.dto.Object.ProfileImgNickname;
-import com.eemgu.usedproducts.domain.dto.Object.SalesBoardDetailDto;
+import com.eemgu.usedproducts.domain.dto.object.ProfileImgNickname;
+import com.eemgu.usedproducts.domain.dto.object.SalesBoardDetailDto;
 import com.eemgu.usedproducts.domain.dto.ResponseDto;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

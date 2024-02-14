@@ -3,7 +3,7 @@ import { ResponseDto } from "./response";
 import { GetNicknameDuplChk, PostEmailAuthChkDto, PostEmailAuthDto, PostSignInResponseDto, PostSignUpResponseDto } from "./response/auth";
 import { EmailAuthChkRequestDto, EmailAuthRequestDto, SignInRequestDto, SignUpRequestDto } from "./request/auth";
 import { error } from "console";
-import { PostSalesBoardWriteResponseDto } from "./response/board";
+import { PostSalesBoardWriteResponseDto, SalesBoardDetailResponseDto } from "./response/board";
 import { SalesBoardWriteRequestDto } from "./request/board";
 
 const DOMAIN = 'http://localhost:8080';
@@ -27,7 +27,21 @@ export const nicknameDupleChk = async(nickname: string) => {
       })
   return result;
 }
-
+// 판매 게시물 상세 보기 
+const SALES_BOARD_DETAIL = (boardId: string) => `${API_DOMAIN}/board/get-sales-board?boardId=${boardId}`;
+export const salesBoardDetailRequest = async(boardId: string) => {
+  const result = await axios.get(SALES_BOARD_DETAIL(boardId))
+      .then(response => {
+        const responseBody:SalesBoardDetailResponseDto = response.data;
+        return responseBody;
+      })
+      .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.requestBody.data;
+        return responseBody;
+      })
+  return result;
+}
 // ========================== post ========================== // 
 // 이메일 인증 요청 
 const SIGN_UP_EMAIL_AUTH_URL = () => `${API_DOMAIN}/auth/sign-up/email-auth`;

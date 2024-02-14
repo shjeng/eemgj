@@ -170,11 +170,11 @@
   background-image: url(assets/imgbutton.png);
 }
 
-
 /* 카테고리 */
 .category-button-box{
   position: relative;
 }
+
 .price-wrap{
   width: 180px;
   height: 120px;

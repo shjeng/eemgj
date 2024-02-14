@@ -1,8 +1,8 @@
 package com.eemgu.usedproducts.domain.service.implement;
 
 import com.eemgu.usedproducts.domain.Entity.*;
-import com.eemgu.usedproducts.domain.dto.Object.ProfileImgNickname;
-import com.eemgu.usedproducts.domain.dto.Object.SalesBoardDetailDto;
+import com.eemgu.usedproducts.domain.dto.object.ProfileImgNickname;
+import com.eemgu.usedproducts.domain.dto.object.SalesBoardDetailDto;
 import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardDetailResponseDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardWriteResponseDto;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
