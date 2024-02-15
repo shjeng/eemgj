@@ -5,6 +5,24 @@ import { salesBoardDetailRequest } from '../../apis';
 import { MAIN_PATH } from '../../constant';
 const SalesBoardDetail = () => {
 
+  const navigate = useNavigate();
+
+  const [mainImg, setMainImg] = useState<string>('');
+  const [subImgs, setSubImgs] = useState<string[]>([]);
+  const [cateogrys, setCategorys] = useState<string[]>([]);
+  const [query, setQuery] = useSearchParams();
+  const boardId = query.get("boardId");
+  useEffect(()=>{
+    if(boardId === null || boardId.length === 0){
+      alert('존재하지 않는 게시물입니다.');
+      navigate(MAIN_PATH());
+      return;
+    }
+    setSubImgs(['https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false',
+    'https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false','https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false','https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false','https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false']);  
+    // salesBoardDetailRequest(boardId).then();
+  },[boardId])
+
   const FavoriteButton = () =>{
     return (           
     <div className='middle-right-button'>
@@ -25,23 +43,6 @@ const SalesBoardDetail = () => {
       </div>
     );
   }
-  const navigate = useNavigate();
-
-  const [mainImg, setMainImg] = useState<string>('');
-  const [subImgs, setSubImgs] = useState<string[]>([]);
-  
-  const [query, setQuery] = useSearchParams();
-  const boardId = query.get("boardId");
-  useEffect(()=>{
-    if(boardId === null || boardId.length === 0){
-      alert('존재하지 않는 게시물입니다.');
-      navigate(MAIN_PATH());
-      return;
-    }
-    setSubImgs(['https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false',
-    'https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false','https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false','https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false','https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false']);  
-    // salesBoardDetailRequest(boardId).then();
-  },[boardId])
   return (
     <div id='sales-board-detail-wrap'>
       <div className='top'>
@@ -71,6 +72,10 @@ const SalesBoardDetail = () => {
       <div className='middle'>
         <div className='middle-left-text'>
           <div className='middle-left-top'>
+            {cateogrys.map((c, i) => (
+              <div>{i}</div>
+              ))};
+            
             <div>{'카테고리들'}</div>
             <div className='height-line'></div>
             <div>거래동네: {'수원'}</div>
@@ -92,9 +97,9 @@ const SalesBoardDetail = () => {
 
       <div className='bottom'>
         <div className='bottom-top'>
-          <div className='profile-img'></div>
+          <div className='profile-img' style={{backgroundImage:`url(https://opgg-static.akamaized.net/meta/images/lol/14.3.1/champion/Azir.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto,f_webp,w_160,h_160&v=1707283412529)`}}></div>
           <div className='profile-nickname'>아지르정시화</div>
-          <div className='height-line'></div>
+          <div className='height-line-2'></div>
           <div className='borad-write-date'>2022. 05. 12.</div>
           <div className='icon-box-2420'>
             <div className='icon delete-button'></div>
@@ -104,7 +109,6 @@ const SalesBoardDetail = () => {
           </div>
         </div>
 
-        <div className='bottom-title'>상품 설명</div>
         <div className='bottom-content'>개봉한지 얼마 안 된 상품입니다. A급! </div>
       </div>
     </div>
