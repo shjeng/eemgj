@@ -11,6 +11,9 @@ import useLoginUserStore from './stores/login-user-store';
 import OurNegighborhoodProducts from './pages/OurNeighborhoodProducts';
 import AddProduct from './pages/Addproduct';
 import SalesBoardDetail from './pages/SalesBoardDetail';
+import { getUser } from './apis';
+import { GetUserResponseDto } from './apis/response/user';
+import { ResponseDto } from './apis/response';
 
 function App() {
   const [cookies, setCookie] = useCookies();
@@ -23,8 +26,11 @@ function App() {
       setCookie('accessToken','',{expires ,path: MAIN_PATH() });
       return;
     }
-    // getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse);
+    getUser(cookies.accessToken).then(getUserResponse);
   },[cookies.accessToken]);
+  const getUserResponse = (responseBody:GetUserResponseDto | ResponseDto | null) => {
+
+  }
   return (
     <Routes>
       <Route element={<Container />}>

@@ -1,7 +1,7 @@
 package com.eemgu.usedproducts.web.controller;
 
-import com.eemgu.usedproducts.domain.dto.response.user.GetUserResponseDto;
-import com.eemgu.usedproducts.domain.dto.response.user.MyProfileResponseDto;
+import com.eemgu.usedproducts.domain.dto.object.UserDto;
+import com.eemgu.usedproducts.domain.dto.response.user.GetLoginUserResponseDto;
 import com.eemgu.usedproducts.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 public class UserController {
 
-//    private final UserService userService;
+    private final UserService userService;
 
 //    @GetMapping("/{email}")
-//    public ResponseEntity<? super GetUserResponseDto> getUser(@PathVariable("email") String email){
+//    public ResponseEntity<? super getLoginUserResponseDto> getLoginUser(@PathVariable("email") String email){
 //        return null;
 //    }
-//    @PostMapping("/my-profile")
-//    public ResponseEntity<? super MyProfileResponseDto> getMyProfile(@AuthenticationPrincipal String email){
-//        return null;
-//    }
+    @GetMapping("")
+    public ResponseEntity<? super GetLoginUserResponseDto> getMyProfile(@AuthenticationPrincipal String email){
+        return userService.getLoginUser(email);
+    }
 }

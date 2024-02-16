@@ -5,6 +5,7 @@ export default interface SalesBoardDetailResponseDto extends ResponseDto{
 	address: string;
 	title: string;
 	content: string;
+	price: number;
 	salesCompleted: boolean;
 	writeDateTime: string;
 	salesBoardImages: string[];

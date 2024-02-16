@@ -5,6 +5,7 @@ import { EmailAuthChkRequestDto, EmailAuthRequestDto, SignInRequestDto, SignUpRe
 import { error } from "console";
 import { PostSalesBoardWriteResponseDto, SalesBoardDetailResponseDto } from "./response/board";
 import { SalesBoardWriteRequestDto } from "./request/board";
+import { GetUserResponseDto } from "./response/user";
 
 const DOMAIN = 'http://localhost:8080';
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -38,6 +39,21 @@ export const salesBoardDetailRequest = async(boardId: string) => {
       .catch(error => {
         if(!error.response) return null;
         const responseBody: ResponseDto = error.requestBody.data;
+        return responseBody;
+      })
+  return result;
+}
+// 회원 정보 가져오기 
+const GET_USER = () => `${API_DOMAIN}/user`;
+export const getUser = async(accessToken:string) => {
+  const result = await axios.get(GET_USER(),authorization(accessToken))
+      .then(response=>{
+        const responseBody:GetUserResponseDto = response.data;
+        return responseBody;
+      })
+      .catch(error=>{
+        if(!error) return null;
+        const responseBody:ResponseDto = error.response.data;
         return responseBody;
       })
   return result;

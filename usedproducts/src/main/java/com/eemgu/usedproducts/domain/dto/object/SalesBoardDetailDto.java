@@ -15,6 +15,7 @@ public class SalesBoardDetailDto {
     private String address;
     private String title;
     private String content;
+    private int price;
     private boolean salesCompleted;
     private LocalDateTime writeDateTime;
     private List<String> salesBoardImages;

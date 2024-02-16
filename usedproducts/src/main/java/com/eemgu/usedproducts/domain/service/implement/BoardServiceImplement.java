@@ -29,7 +29,7 @@ public class BoardServiceImplement implements BoardService {
     // get
 
 
-    @Override
+    @Override // 판매 게시글 불러오기
     public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoardDetail(Long boardId) {
         SalesBoardDetailDto salesBoardDetailDto;
         ProfileImgNickname profileImgNickname;
@@ -54,6 +54,7 @@ public class BoardServiceImplement implements BoardService {
                     .address(userEntity.getAddress())
                     .title(salesBoard.getTitle())
                     .content(salesBoard.getContent())
+                    .price(salesBoard.getPrice())
                     .salesCompleted(salesBoard.isSalesCompleted())
                     .writeDateTime(salesBoard.getCreateDate())
                     .salesBoardImages(getImages)
