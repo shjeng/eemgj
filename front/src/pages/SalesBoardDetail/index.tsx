@@ -13,6 +13,7 @@ const SalesBoardDetail = () => {
   // state: SalesBoardDetail state    //
   const [board, setBoard] = useState<SalesBoardDetailResponseDto | null>(null);
   const [mainImg, setMainImg] = useState<string>('');
+  const [mainImgIndex, setMainImgIndex] = useState<number>(0);
   // const [subImgs, setSubImgs] = useState<string[]>([]);
   const [price, setPrice] = useState<string>(); // 가격 콤마를 위한 
   const [mySalesBoard, setMySalesBoard] = useState<boolean>(false); // 내 게시물인지 확인함. 
@@ -42,7 +43,7 @@ const SalesBoardDetail = () => {
     }
     const getBoard = {...responseBody as SalesBoardDetailResponseDto};
     setBoard(getBoard);
-
+  
     let getPrice = getBoard.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     setPrice(getPrice);
     let getEmail = getBoard.email;
@@ -53,23 +54,43 @@ const SalesBoardDetail = () => {
     let getBoardImg = getBoard.salesBoardImages;
     if(getBoardImg.length === 0) return;
     setMainImg(getBoardImg[0]);
+    setMainImgIndex(0);
   } // useEffect 
 
   // function: SalesBoardDetail     //
+  // 이미지 좌우버튼 클릭
+  const onPreviousClick = () => {
+    if(!board)return;
+    let index = board.salesBoardImages.indexOf(mainImg);
+    if(index===0) return;
+    setMainImgIndex(index-1);
+    setMainImg(board.salesBoardImages[index-1]);
+  } 
+  const onNextButtonClick = () => {
+    if(!board)return;
+    let index = board.salesBoardImages.indexOf(mainImg);
+    if(index===board.salesBoardImages.length-1) return;
+    setMainImgIndex(index+1);
+    setMainImg(board.salesBoardImages[index+1]);
+  }
   // 서브 이미지 클릭 시 
   const onSubImgClick = (index:number, url:string) => {
     if(!board) return;
-    let getImgs = board.salesBoardImages;
     setMainImg(url)
+    setMainImgIndex(index);
   }
   // + 페이지 펼치기 
   const onMoreImg = () => {
     setSpread(true);
   }
+  
+  // button //
+  const FavoriteButton = ({ boardId }: { boardId: string|null }) =>{
+    const onFavoriteButtonClick = () => {
 
-  const FavoriteButton = () =>{
+    }
     return (           
-    <div className='middle-right-button'>
+    <div className='middle-right-button' onClick={onFavoriteButtonClick}>
       <div>관심상품</div>
       <div className='icon-box-3530'>
         <div className='icon favorite-icon'></div>
@@ -77,16 +98,21 @@ const SalesBoardDetail = () => {
     </div>)
     ;
   }
+
   const ChattingButton = () => {
+    const onChattingButtonClick = () => {
+
+    }
     return (
-      <div className='middle-right-button'>
+      <div className='middle-right-button' onClick={onChattingButtonClick}>
         <div>문의하기</div>
         <div className='icon-box-3530'>
           <div className='icon chatting-icon'></div>
         </div>
       </div>
     );
-  }
+  } // button 
+   
   if(!board) return <></>
   return (
     <div id='sales-board-detail-wrap'>
@@ -101,12 +127,15 @@ const SalesBoardDetail = () => {
         <div className='top-left-img-box'>
         <div className='top-left-img' style={{backgroundImage:`url(https://img2.joongna.com/cafe-article-data/live/2024/02/11/1039915625/1707631398470_002_XIqmd.jpg?impolicy=resizeWatermark3&isSecret=false)`}}></div>
         <div className='top-left-img' style={{backgroundImage:`url(${mainImg})`}}></div>
-          <div className='img-previous-button icon-box-1320'>
+        {mainImgIndex > 0 && /**main 이미지의 위치가 0인 경우엔 버튼이 나타나면 안 됨. */
+          <div className='img-previous-button icon-box-1320' onClick={onPreviousClick}>
             <div className='icon img-left-button'></div>
-          </div>
-          <div className='img-next-button icon-box-1320'>
+          </div>}
+        {mainImgIndex < board.salesBoardImages.length && /** main 이미지의 인덱스가 마지막인 경우 */
+          <div className='img-next-button icon-box-1320' onClick={onNextButtonClick}>
             <div className='icon img-right-button'></div>
           </div>
+          }
         </div>
         
         <div className='top-right-img-box'>
@@ -143,7 +172,7 @@ const SalesBoardDetail = () => {
         </div>
         
         <div className='middle-right-sales-board-button'>
-          <FavoriteButton />
+          <FavoriteButton boardId={boardId} />
           <ChattingButton />
         </div>
       </div>

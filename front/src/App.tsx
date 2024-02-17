@@ -14,6 +14,7 @@ import SalesBoardDetail from './pages/SalesBoardDetail';
 import { getUser } from './apis';
 import { GetUserResponseDto } from './apis/response/user';
 import { ResponseDto } from './apis/response';
+import User from './types/user.interface';
 
 function App() {
   const [cookies, setCookie] = useCookies();
@@ -29,7 +30,17 @@ function App() {
     getUser(cookies.accessToken).then(getUserResponse);
   },[cookies.accessToken]);
   const getUserResponse = (responseBody:GetUserResponseDto | ResponseDto | null) => {
-
+    if(!responseBody) return;
+    const {code}= responseBody; 
+    if(code === 'VF') alert('유효성 검사 실패');
+    if(code === 'NU') alert('존재하지 않는 유저');
+    if(code === 'DBE') alert('데이터베이스 오류');
+    if(code !== 'SU'){
+      resetLoginUser();
+      return;
+    }
+    const loginUser:User ={...responseBody as GetUserResponseDto};
+    setLoginUser(loginUser);
   }
   return (
     <Routes>

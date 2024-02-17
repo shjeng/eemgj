@@ -5,6 +5,7 @@ import com.eemgu.usedproducts.domain.dto.object.ProfileImgNickname;
 import com.eemgu.usedproducts.domain.dto.object.SalesBoardDetailDto;
 import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardDetailResponseDto;
+import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardFavoriteResponseDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardWriteResponseDto;
 import com.eemgu.usedproducts.domain.jpa.service.*;
 import com.eemgu.usedproducts.domain.service.BoardService;
@@ -103,5 +104,18 @@ public class BoardServiceImplement implements BoardService {
             SalesBoardWriteResponseDto.databaseError();
         }
         return SalesBoardWriteResponseDto.success(boardId);
+    }
+
+    // put
+
+    @Override
+    public ResponseEntity<? super SalesBoardFavoriteResponseDto> putSalesBoardFavorite(Long boardId, String email) {
+        try{
+
+        }catch(Exception e){
+            e.printStackTrace();
+            SalesBoardFavoriteResponseDto.databaseError();
+        }
+        return null;
     }
 }
