@@ -12,7 +12,6 @@ import com.eemgu.usedproducts.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +26,7 @@ public class BoardServiceImplement implements BoardService {
     private final SalesBoardTagService salesBoardTagService;
     private final ImageService imageService;
     private final SalesBoardCategoryService salesBoardCategoryService;
+    private final SalesBoardFavoriteService salesBoardFavoriteService;
     // get
 
 
@@ -108,9 +108,23 @@ public class BoardServiceImplement implements BoardService {
 
     // put
 
-    @Override
+    @Override // 판매 게시글 좋아요
     public ResponseEntity<? super SalesBoardFavoriteResponseDto> putSalesBoardFavorite(Long boardId, String email) {
         try{
+            Optional<UserEntity> optionalUser = userEntityService.findByEmail(email);
+            if(optionalUser.isEmpty()) return SalesBoardFavoriteResponseDto.noExistedUser(); // 존재하지 않는 유저
+            UserEntity userEntity = optionalUser.get();
+
+            Optional<SalesBoard> boardOptional = salesBoardService.findById(boardId);
+            if(boardOptional.isEmpty()) return SalesBoardFavoriteResponseDto.noExistedBoard(); // 존재하지 않는 게시물인 경우
+            SalesBoard salesBoard = boardOptional.get();
+
+            Optional<SalesBoardFavorite> favoriteOptional = salesBoardFavoriteService.findBySalesBoardAndUserEntity(salesBoard, userEntity);
+            if(favoriteOptional.isEmpty()){
+                SalesBoardFavorite salesBoardFavorite = new SalesBoardFavorite(userEntity,salesBoard);
+                salesBoardFavoriteService.save(salesBoardFavorite);
+            }
+
 
         }catch(Exception e){
             e.printStackTrace();

@@ -25,4 +25,8 @@ public class SalesBoardService {
     public SalesBoard save(SalesBoard salesBoard){
         return salesBoardRepository.save(salesBoard);
     }
+
+    public Optional<SalesBoard> findById(Long boardId){
+        return salesBoardJoinRepository.findById(boardId);
+    }
 }

@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-@Builder
-@AllArgsConstructor
 public class SalesBoardFavorite {
     @Id @GeneratedValue
     @Column(name = "favorite_sales_board_id")
@@ -22,4 +20,9 @@ public class SalesBoardFavorite {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sales_board_id")
     private SalesBoard salesBoard;
+
+    public SalesBoardFavorite(UserEntity userEntity, SalesBoard salesBoard) {
+        this.userEntity = userEntity;
+        this.salesBoard = salesBoard;
+    }
 }
