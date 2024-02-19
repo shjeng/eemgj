@@ -1,6 +1,6 @@
 package com.eemgu.usedproducts.domain.jpa.service;
 
-import com.eemgu.usedproducts.domain.Entity.TagEntity;
+import com.eemgu.usedproducts.domain.entity.TagEntity;
 import com.eemgu.usedproducts.domain.jpa.repository.TagRespository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

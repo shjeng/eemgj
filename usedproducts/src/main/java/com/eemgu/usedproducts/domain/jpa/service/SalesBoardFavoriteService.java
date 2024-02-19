@@ -1,8 +1,8 @@
 package com.eemgu.usedproducts.domain.jpa.service;
 
-import com.eemgu.usedproducts.domain.Entity.SalesBoard;
-import com.eemgu.usedproducts.domain.Entity.SalesBoardFavorite;
-import com.eemgu.usedproducts.domain.Entity.UserEntity;
+import com.eemgu.usedproducts.domain.entity.SalesBoard;
+import com.eemgu.usedproducts.domain.entity.SalesBoardFavorite;
+import com.eemgu.usedproducts.domain.entity.UserEntity;
 import com.eemgu.usedproducts.domain.jpa.repository.SalesBoardFavoriteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,9 @@ public class SalesBoardFavoriteService {
         salesBoardFavoriteRepository.delete(salesBoardFavorite);
     }
 
+    public Optional<SalesBoardFavorite> findByUserEntityEmailAndSalesBoard(String userEntityEmail,SalesBoard salesBoard){
+        return salesBoardFavoriteRepository.findByUserEntityEmailAndSalesBoard(userEntityEmail,salesBoard);
+    }
     public Optional<SalesBoardFavorite> findBySalesBoardAndUserEntity(SalesBoard salesBoard, UserEntity userEntity){
         return salesBoardFavoriteRepository.findBySalesBoardAndUserEntity(salesBoard,userEntity);
     }

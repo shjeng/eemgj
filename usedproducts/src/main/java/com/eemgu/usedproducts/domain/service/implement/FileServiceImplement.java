@@ -1,6 +1,6 @@
 package com.eemgu.usedproducts.domain.service.implement;
 
-import com.eemgu.usedproducts.domain.Entity.UserEntity;
+import com.eemgu.usedproducts.domain.entity.UserEntity;
 import com.eemgu.usedproducts.domain.jpa.service.UserEntityService;
 import com.eemgu.usedproducts.domain.service.FileService;
 import lombok.RequiredArgsConstructor;

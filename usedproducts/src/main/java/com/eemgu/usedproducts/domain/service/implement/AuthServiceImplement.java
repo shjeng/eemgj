@@ -1,7 +1,7 @@
 package com.eemgu.usedproducts.domain.service.implement;
 
-import com.eemgu.usedproducts.domain.Entity.AuthNumber;
-import com.eemgu.usedproducts.domain.Entity.UserEntity;
+import com.eemgu.usedproducts.domain.entity.AuthNumber;
+import com.eemgu.usedproducts.domain.entity.UserEntity;
 import com.eemgu.usedproducts.domain.common.RandomNumber;
 import com.eemgu.usedproducts.domain.dto.request.auth.EmailAuthChkRequestDto;
 import com.eemgu.usedproducts.domain.dto.request.auth.EmailAuthRequestDto;

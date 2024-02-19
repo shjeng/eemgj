@@ -9,11 +9,13 @@ import org.springframework.http.ResponseEntity;
 
 @Getter
 public class SalesBoardFavoriteResponseDto extends ResponseDto {
-    public SalesBoardFavoriteResponseDto() {
+    private boolean favoriteChk = false;
+    public SalesBoardFavoriteResponseDto(boolean favoriteChk) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        this.favoriteChk = favoriteChk;
     }
-    public static ResponseEntity<SalesBoardFavoriteResponseDto> success(){ // 성공
-        return ResponseEntity.status(HttpStatus.OK).body(new SalesBoardFavoriteResponseDto());
+    public static ResponseEntity<SalesBoardFavoriteResponseDto> success(boolean favoriteChk){ // 성공
+        return ResponseEntity.status(HttpStatus.OK).body(new SalesBoardFavoriteResponseDto(favoriteChk));
     }
 
     public static ResponseEntity<ResponseDto> noExistedBoard(){ // 없는 게시물

@@ -1,7 +1,7 @@
 package com.eemgu.usedproducts.domain.jpa.service;
 
-import com.eemgu.usedproducts.domain.Entity.ImageEntity;
-import com.eemgu.usedproducts.domain.Entity.SalesBoard;
+import com.eemgu.usedproducts.domain.entity.ImageEntity;
+import com.eemgu.usedproducts.domain.entity.SalesBoard;
 import com.eemgu.usedproducts.domain.jpa.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

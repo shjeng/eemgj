@@ -1,6 +1,7 @@
 package com.eemgu.usedproducts.domain.service.implement;
 
-import com.eemgu.usedproducts.domain.Entity.*;
+import com.eemgu.usedproducts.domain.dto.request.board.GetSalesBoardRequestDto;
+import com.eemgu.usedproducts.domain.entity.*;
 import com.eemgu.usedproducts.domain.dto.object.ProfileImgNickname;
 import com.eemgu.usedproducts.domain.dto.object.SalesBoardDetailDto;
 import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto;
@@ -31,16 +32,22 @@ public class BoardServiceImplement implements BoardService {
 
 
     @Override // 판매 게시글 불러오기
-    public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoardDetail(Long boardId) {
+    public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoardDetail(GetSalesBoardRequestDto dto) {
         SalesBoardDetailDto salesBoardDetailDto;
         ProfileImgNickname profileImgNickname;
         try{
-            if(boardId == null) return SalesBoardDetailResponseDto.noExistSalesBoard();
-            Optional<SalesBoard> boardOptional = salesBoardService.findFetchCategorysImagesTagsById(boardId);
-            if(boardOptional.isEmpty()) return SalesBoardDetailResponseDto.noExistSalesBoard();
+            if(dto.getBoardId() == null) return SalesBoardDetailResponseDto.noExistSalesBoard();
+            Optional<SalesBoard> boardOptional = salesBoardService.findFetchCategorysImagesTagsById(dto.getBoardId());
+            if(boardOptional.isEmpty()) return SalesBoardDetailResponseDto.noExistSalesBoard(); // 게시글이 없는 경우
 
-            SalesBoard salesBoard = boardOptional.get();
-            // 다대다 엔티티
+            SalesBoard salesBoard = boardOptional.get(); // 게시글이 있는 경우 게시글 불러옴.
+
+            boolean favoriteChk = false;
+            Optional<SalesBoardFavorite> getFavorite = salesBoardFavoriteService.findByUserEntityEmailAndSalesBoard(dto.getEmail(), salesBoard);
+            if(getFavorite.isPresent()){
+                favoriteChk = true;
+            } // 좋아요 버튼 눌렀는지 확인
+
             List<SalesBoardTag> salesBoardTags = salesBoard.getTags();
             List<Category> categoryEntitys = salesBoardCategoryService.findFetchCategoryBySalesBoard(salesBoard);
             List<ImageEntity> images = imageService.findBySalesBoard(salesBoard);
@@ -59,6 +66,9 @@ public class BoardServiceImplement implements BoardService {
                     .salesCompleted(salesBoard.isSalesCompleted())
                     .writeDateTime(salesBoard.getCreateDate())
                     .salesBoardImages(getImages)
+                    .tags(getTags)
+                    .favorite(favoriteChk)
+
                     .build();
 
             profileImgNickname = ProfileImgNickname.builder()
@@ -74,7 +84,7 @@ public class BoardServiceImplement implements BoardService {
     }
 
     // post
-    @Override
+    @Override // 판매 게시글 작성
     public ResponseEntity<? super SalesBoardWriteResponseDto> postSalesBoardWrite(SalesBoardWriteRequestDto dto, String email) {
         Long boardId = null;
         try {
@@ -110,7 +120,9 @@ public class BoardServiceImplement implements BoardService {
 
     @Override // 판매 게시글 좋아요
     public ResponseEntity<? super SalesBoardFavoriteResponseDto> putSalesBoardFavorite(Long boardId, String email) {
+        boolean favoriteChk = false;
         try{
+
             Optional<UserEntity> optionalUser = userEntityService.findByEmail(email);
             if(optionalUser.isEmpty()) return SalesBoardFavoriteResponseDto.noExistedUser(); // 존재하지 않는 유저
             UserEntity userEntity = optionalUser.get();
@@ -123,6 +135,9 @@ public class BoardServiceImplement implements BoardService {
             if(favoriteOptional.isEmpty()){
                 SalesBoardFavorite salesBoardFavorite = new SalesBoardFavorite(userEntity,salesBoard);
                 salesBoardFavoriteService.save(salesBoardFavorite);
+            } else{
+                salesBoardFavoriteService.delete(favoriteOptional.get());
+                favoriteChk = true;
             }
 
 
@@ -130,6 +145,6 @@ public class BoardServiceImplement implements BoardService {
             e.printStackTrace();
             SalesBoardFavoriteResponseDto.databaseError();
         }
-        return null;
+        return SalesBoardFavoriteResponseDto.success(favoriteChk);
     }
 }

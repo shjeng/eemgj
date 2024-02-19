@@ -1,6 +1,6 @@
 package com.eemgu.usedproducts.domain.service.implement;
 
-import com.eemgu.usedproducts.domain.Entity.UserEntity;
+import com.eemgu.usedproducts.domain.entity.UserEntity;
 import com.eemgu.usedproducts.domain.dto.object.UserDto;
 import com.eemgu.usedproducts.domain.dto.response.user.GetLoginUserResponseDto;
 import com.eemgu.usedproducts.domain.jpa.service.UserEntityService;

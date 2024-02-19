@@ -17,7 +17,8 @@ public interface AuthService {
     // 닉네임 중복 확인
     ResponseEntity<? super NicknameDuplChkResponseDto> nicknameDuplChk(String nickname);
 
-    // 회원가입
+    // 로그인
     ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto);
+    // 회원가입
     ResponseEntity<? super SignUpResponseDto> signUp(SignUpRequestDto dto);
 }

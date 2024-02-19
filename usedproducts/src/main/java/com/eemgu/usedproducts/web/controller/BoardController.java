@@ -1,5 +1,6 @@
 package com.eemgu.usedproducts.web.controller;
 
+import com.eemgu.usedproducts.domain.dto.request.board.GetSalesBoardRequestDto;
 import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardDetailResponseDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardFavoriteResponseDto;
@@ -21,8 +22,8 @@ public class BoardController {
 
     @GetMapping("/get-sales-board") // 게시물 불러오기
     public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoard(
-            @RequestParam(name = "boardId") Long boardId){
-        return boardService.getSalesBoardDetail(boardId);
+            @RequestBody GetSalesBoardRequestDto dto){
+        return boardService.getSalesBoardDetail(dto);
     }
 
     @PostMapping("/sales") // 게시물 작성
@@ -31,9 +32,9 @@ public class BoardController {
         return boardService.postSalesBoardWrite(dto,email);
     }
 
-    @PutMapping("/favorite")
+    @PutMapping("/favorite") // 좋아요 버튼 클릭
     public ResponseEntity<? super SalesBoardFavoriteResponseDto>salesBoardFavorite(
             @RequestParam("boardId") Long boardId,@AuthenticationPrincipal String email){
-        return null;
+        return boardService.putSalesBoardFavorite(boardId,email);
     }
 }

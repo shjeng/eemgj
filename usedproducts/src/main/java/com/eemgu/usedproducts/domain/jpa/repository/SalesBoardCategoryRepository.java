@@ -1,8 +1,8 @@
 package com.eemgu.usedproducts.domain.jpa.repository;
 
-import com.eemgu.usedproducts.domain.Entity.Category;
-import com.eemgu.usedproducts.domain.Entity.SalesBoard;
-import com.eemgu.usedproducts.domain.Entity.SalesBoardCategory;
+import com.eemgu.usedproducts.domain.entity.Category;
+import com.eemgu.usedproducts.domain.entity.SalesBoard;
+import com.eemgu.usedproducts.domain.entity.SalesBoardCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

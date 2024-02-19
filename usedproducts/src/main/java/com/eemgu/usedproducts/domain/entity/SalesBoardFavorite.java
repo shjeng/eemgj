@@ -1,8 +1,6 @@
-package com.eemgu.usedproducts.domain.Entity;
+package com.eemgu.usedproducts.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -1,6 +1,6 @@
 package com.eemgu.usedproducts.domain.jpa.repository;
 
-import com.eemgu.usedproducts.domain.Entity.UserEntity;
+import com.eemgu.usedproducts.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

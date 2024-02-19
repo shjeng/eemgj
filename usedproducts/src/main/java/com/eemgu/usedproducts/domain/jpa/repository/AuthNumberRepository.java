@@ -1,6 +1,6 @@
 package com.eemgu.usedproducts.domain.jpa.repository;
 
-import com.eemgu.usedproducts.domain.Entity.AuthNumber;
+import com.eemgu.usedproducts.domain.entity.AuthNumber;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

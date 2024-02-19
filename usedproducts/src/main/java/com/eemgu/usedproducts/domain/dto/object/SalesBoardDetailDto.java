@@ -19,4 +19,6 @@ public class SalesBoardDetailDto {
     private boolean salesCompleted;
     private LocalDateTime writeDateTime;
     private List<String> salesBoardImages;
+    private List<String> tags;
+    private boolean favorite;
 }

@@ -1,6 +1,6 @@
 package com.eemgu.usedproducts.domain.jpa.service;
 
-import com.eemgu.usedproducts.domain.Entity.AuthNumber;
+import com.eemgu.usedproducts.domain.entity.AuthNumber;
 import com.eemgu.usedproducts.domain.jpa.repository.AuthNumberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.eemgu.usedproducts.domain.jpa.service;
 
-import com.eemgu.usedproducts.domain.Entity.SalesBoard;
+import com.eemgu.usedproducts.domain.entity.SalesBoard;
 import com.eemgu.usedproducts.domain.jpa.repository.salesBoard.SalesBoardJoinRepository;
 import com.eemgu.usedproducts.domain.jpa.repository.salesBoard.SalesBoardRepository;
 import lombok.RequiredArgsConstructor;
