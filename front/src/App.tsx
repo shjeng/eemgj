@@ -14,11 +14,11 @@ import SalesBoardDetail from './pages/SalesBoardDetail';
 import { getUser } from './apis';
 import { GetUserResponseDto } from './apis/response/user';
 import { ResponseDto } from './apis/response';
-import User from './types/user.interface';
 
 function App() {
   const [cookies, setCookie] = useCookies();
   const{loginUser,setLoginUser, resetLoginUser} = useLoginUserStore();
+
 
   useEffect(()=>{
     const expires = new Date(0  * 0);
@@ -39,8 +39,8 @@ function App() {
       resetLoginUser();
       return;
     }
-    const loginUser:User ={...responseBody as GetUserResponseDto};
-    setLoginUser(loginUser);
+    const loginUser = {...responseBody as GetUserResponseDto};
+    setLoginUser(loginUser.user);
   }
   return (
     <Routes>

@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProfileImgNickname {
+public class Writer {
     private String profileImg;
     private String nickname;
     private String email;

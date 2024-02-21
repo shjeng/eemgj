@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 public interface BoardService {
 
     // get
-    ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoardDetail(GetSalesBoardRequestDto dto); // 판매 게시글 상세보기
+    ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoardDetail(String email, Long boadId); // 판매 게시글 상세보기
 
     // post
     ResponseEntity<? super SalesBoardWriteResponseDto> postSalesBoardWrite(SalesBoardWriteRequestDto dto, String email);

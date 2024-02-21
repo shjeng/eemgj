@@ -6,6 +6,7 @@ import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardDetailResponse
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardFavoriteResponseDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardWriteResponseDto;
 import com.eemgu.usedproducts.domain.service.BoardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public class BoardController {
 
     @GetMapping("/get-sales-board") // 게시물 불러오기
     public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoard(
-            @RequestBody GetSalesBoardRequestDto dto){
-        return boardService.getSalesBoardDetail(dto);
+            @RequestParam(name = "email", required = false) String email, @RequestParam(name = "boardId") Long boardId){
+        return boardService.getSalesBoardDetail(email, boardId);
     }
 
     @PostMapping("/sales") // 게시물 작성
     public ResponseEntity<? super SalesBoardWriteResponseDto> salesBoardWrite(
-            @RequestBody SalesBoardWriteRequestDto dto, @AuthenticationPrincipal String email){
+            @RequestBody @Valid SalesBoardWriteRequestDto dto, @AuthenticationPrincipal String email){
         return boardService.postSalesBoardWrite(dto,email);
     }
 

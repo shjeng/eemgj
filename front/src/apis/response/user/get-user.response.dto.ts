@@ -1,6 +1,7 @@
 import User from "../../../types/user.interface";
 import ResponseDto from "../response.dto";
 
-export default interface GetUserResponseDto extends ResponseDto, User{
+export default interface GetUserResponseDto extends ResponseDto{
+  user:User;
 
 }

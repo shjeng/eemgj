@@ -5,5 +5,6 @@ export default interface SalesBoardWriteRequestDto {
   categorys: string[];
   transaction: string;
   tags: string[];
-  urls: string[];
+  imageUrls: string[];
+  address: string;
 }

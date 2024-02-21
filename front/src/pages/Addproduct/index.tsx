@@ -9,11 +9,13 @@ import { SalesBoardWriteRequestDto } from '../../apis/request/board';
 import { PostSalesBoardWriteResponseDto } from '../../apis/response/board';
 import { ResponseDto } from '../../apis/response';
 import { useNavigate } from 'react-router-dom';
-import { SALES_BOARD_DETAIL } from '../../constant';
+import { MAIN_PATH, SALES_BOARD_DETAIL } from '../../constant';
+import useLoginUserStore from '../../stores/login-user-store';
 
 const AddProduct = () => {
 
   const [cookies, setCookies] = useCookies();
+  const {loginUser} = useLoginUserStore();
   const navigate = useNavigate();
 
   const won = ' ₩ ';  
@@ -28,7 +30,17 @@ const AddProduct = () => {
   const [tag, setTag] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]); // 이미지 미리보기 url
-  const imageFiles: File[] = [];
+  const [imageFiles,setImageFiles] = useState<File[]>([]);
+
+  // effect: 처음 들어왔을 때  // 
+  useEffect(()=>{
+    // alert(cookies.accessToken + " / " + loginUser?.email)
+    if(!cookies.accessToken){
+      alert('로그인이 필요한 서비스입니다. ');
+      navigate(MAIN_PATH());
+      return
+    }
+  },[])
 
   // state: spread //
   const priceButtonRef = useRef<HTMLDivElement | null>(null);
@@ -263,19 +275,25 @@ const AddProduct = () => {
   const onDirectChk = () => {
     if(direct.length === 0){
       setDirect("direct");
+      setDelevery("");
+      setNoMatter("");
       return;
     }
     setDirect('');
   }
   const onDeliveryChk = () => {
     if(delivery.length === 0){
+      setDirect("");
       setDelevery("delivery");
+      setNoMatter("");
       return;
     }
     setDelevery('');
   }
   const onNoMatterChk = () => {
     if(noMatter.length === 0){
+      setDirect("");
+      setDelevery("");
       setNoMatter("noMatter");
       return;
     }
@@ -308,20 +326,22 @@ const AddProduct = () => {
   // event handler: 이미지 변경 이벤트 처리     //
   const onImageChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
     if(!event.target.files || !event.target.files.length) return; 
-    const images = event.target.files;
-    let imagesUrlList = [...imageUrls];
+    const images = event.target.files; // 선택한 파일 가져오기 
+    let imagesUrlList:string[] = []; // 미리보기 list
+    let getImageFiles:File[] = [];
     for(let i=0;i<images.length;i++){
-      const currentImgUrl = URL.createObjectURL(images[i]);
-      imageFiles.push(images[i]);
-      imagesUrlList.push(currentImgUrl);
+      const currentImgUrl = URL.createObjectURL(images[i]); // 미리보기 만들어주기 
+      imagesUrlList.push(currentImgUrl); // 미리보기 url 
+      getImageFiles.push(images[i]); // 파일 담아주기. 
     }
     if(imagesUrlList.length > 10){
       imagesUrlList = imagesUrlList.slice(0,10);
       while(imageFiles.length < 11){
-        imageFiles.pop();
+        getImageFiles.pop();
       }
-      imageFiles.slice(0,10);
+      getImageFiles.slice(0,10);
     }
+    setImageFiles(getImageFiles);
     setImageUrls(imagesUrlList);
 
   }
@@ -357,6 +377,8 @@ const AddProduct = () => {
 
   // event handler: 작성 버튼 클릭
   const onRegistrationButtonClick = async() => {
+    alert(imageFiles[0]);
+    if(!loginUser) return;
     if(categoryCount===0){
       alert('카테고리를 선택해주세요.');
       return
@@ -367,14 +389,18 @@ const AddProduct = () => {
     }
     const accessToken = cookies.accessToken;
     if(!accessToken) return;
-    const urls:string[] = [];
+    const imageUrls:string[] = [];
+    alert(imageFiles[0]); // 이미 여기서부터 안 넘어옴.
     for(const file of imageFiles){
       const data = new FormData();
       data.append('file',file);
       const getUrl = await fileUploadRequest(data,accessToken);
-      if(getUrl) urls.push(getUrl);
+      if(getUrl) imageUrls.push(getUrl);
     }
-    const requestBody:SalesBoardWriteRequestDto = {title,content,price,categorys,transaction,tags,urls};
+    alert("파일은 오케!" + imageUrls[0]);
+
+    const address = loginUser.address;
+    const requestBody:SalesBoardWriteRequestDto = {title,content,price,categorys,transaction,tags,imageUrls,address};
     salesBoardWriteRequest(requestBody,accessToken).then(salesBoardWriteResponse);
   }
   const salesBoardWriteResponse = (responseBody: PostSalesBoardWriteResponseDto | ResponseDto | null) => {  
@@ -390,7 +416,7 @@ const AddProduct = () => {
       return;
     }
     const {boardId} = responseBody as PostSalesBoardWriteResponseDto;
-    navigate(`${SALES_BOARD_DETAIL()}/boardId=${boardId}`); // 게시물 상세보기 페이지로 이동 
+    navigate(`${SALES_BOARD_DETAIL()}?boardId=${boardId}`); // 게시물 상세보기 페이지로 이동 
   }
 
   return (
@@ -403,13 +429,13 @@ const AddProduct = () => {
           {'상품등록'}
         </div>
         <div className='top-small-text'>
-          {'현재 지역: '} {'지역~'}
+          {'현재 지역: '} {loginUser?.address}
         </div>
       </div>
 
       <div className='width-line'></div>
 
-      <div className='bottom'>
+      <div className='addproduct-bottom'>
         <div className='middle-left'>
 
           <div className='middle-box-wrap'>

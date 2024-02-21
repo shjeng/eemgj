@@ -40,13 +40,15 @@ public class WebSecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authorizeHttpRequests(request -> request
-                        .requestMatchers("/", "/api/auth/**", "/api/search/**", "/file/**").permitAll()
+                        .requestMatchers("/", "/api/auth/**", "/api/search/**", "/file/**","/file/used/**").permitAll()
+//                        .requestMatchers(HttpMethod.POST,"/","/api/board/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/board/**", "/api/user/*").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(new FailedAuthenticationEntryPoint())).
                 addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
+
 
     @Bean
     protected CorsConfigurationSource corsConfigrationSourse() {

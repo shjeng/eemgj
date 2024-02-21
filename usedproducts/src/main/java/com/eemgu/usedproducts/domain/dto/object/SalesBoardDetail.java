@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Setter
-public class SalesBoardDetailDto {
+public class SalesBoardDetail {
     private List<String> categorys;
     private String address;
     private String title;
@@ -20,5 +20,5 @@ public class SalesBoardDetailDto {
     private LocalDateTime writeDateTime;
     private List<String> salesBoardImages;
     private List<String> tags;
-    private boolean favorite;
+    private boolean favoriteChk;
 }

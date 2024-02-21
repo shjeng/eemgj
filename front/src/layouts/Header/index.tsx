@@ -26,6 +26,7 @@ const Header = () => {
       const searchButtonRef = useRef<HTMLDivElement | null>(null);
       const inputRef = useRef<HTMLInputElement | null>(null);
       const [word, setWord] = useState<string>('');
+      const {} = useLoginUserStore();
 
       //    function: 검색 단어, Input 엔터처리, 검색 버튼 클릭 함수     // 
       const onInputBoxChangeHandler = (event: ChangeEvent<HTMLInputElement>) =>{ 
@@ -72,7 +73,14 @@ const Header = () => {
           </div>
           <div className='header-right-box' >
           {loginUser ? 
-            <div>마이페이지?</div> : 
+            <div>
+              <div></div>
+              {loginUser.profileImage ? 
+              <div className='profile-image' style={{backgroundImage:`url(${loginUser.profileImage})`}}></div>
+              :
+              <div className='default-profile-image'>기본이미지</div>
+              }
+            </div> : 
             <div className='header-right-box-child' onClick={onLoginButtonClickHandler}>{'로그인/회원가입'}</div> 
           }
           </div>

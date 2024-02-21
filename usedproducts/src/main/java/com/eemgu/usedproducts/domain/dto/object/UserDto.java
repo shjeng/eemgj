@@ -2,8 +2,7 @@ package com.eemgu.usedproducts.domain.dto.object;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -11,4 +10,5 @@ public class UserDto {
     private String email;
     private String nickname;
     private String profileImage;
+    private String address;
 }

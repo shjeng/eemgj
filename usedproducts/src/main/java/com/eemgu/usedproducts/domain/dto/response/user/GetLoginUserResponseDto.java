@@ -11,11 +11,11 @@ import org.springframework.http.ResponseEntity;
 @Getter
 public class GetLoginUserResponseDto extends ResponseDto {
 
-    private UserDto userDto;
+    private UserDto user;
 
     private GetLoginUserResponseDto(UserDto dto) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        userDto = dto;
+        user = dto;
     }
 
     public static ResponseEntity<GetLoginUserResponseDto> success(UserDto dto){

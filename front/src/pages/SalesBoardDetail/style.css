@@ -166,6 +166,9 @@
   cursor: pointer;
 }
 .favorite-icon{
+  background-image: url(assets/favorite.png);
+}
+.no-favorite-icon{
   background-image: url(assets/heart.png);
 }
 .chatting-icon{

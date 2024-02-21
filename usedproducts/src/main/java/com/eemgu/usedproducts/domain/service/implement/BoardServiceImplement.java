@@ -1,9 +1,8 @@
 package com.eemgu.usedproducts.domain.service.implement;
 
-import com.eemgu.usedproducts.domain.dto.request.board.GetSalesBoardRequestDto;
 import com.eemgu.usedproducts.domain.entity.*;
-import com.eemgu.usedproducts.domain.dto.object.ProfileImgNickname;
-import com.eemgu.usedproducts.domain.dto.object.SalesBoardDetailDto;
+import com.eemgu.usedproducts.domain.dto.object.Writer;
+import com.eemgu.usedproducts.domain.dto.object.SalesBoardDetail;
 import com.eemgu.usedproducts.domain.dto.request.board.SalesBoardWriteRequestDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardDetailResponseDto;
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardFavoriteResponseDto;
@@ -32,18 +31,18 @@ public class BoardServiceImplement implements BoardService {
 
 
     @Override // 판매 게시글 불러오기
-    public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoardDetail(GetSalesBoardRequestDto dto) {
-        SalesBoardDetailDto salesBoardDetailDto;
-        ProfileImgNickname profileImgNickname;
+    public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoardDetail(String email,Long boardId) {
+        SalesBoardDetail salesBoardDetail;
+        Writer writer;
         try{
-            if(dto.getBoardId() == null) return SalesBoardDetailResponseDto.noExistSalesBoard();
-            Optional<SalesBoard> boardOptional = salesBoardService.findFetchCategorysImagesTagsById(dto.getBoardId());
+            if(boardId == null) return SalesBoardDetailResponseDto.noExistSalesBoard();
+            Optional<SalesBoard> boardOptional = salesBoardService.findFetchCategorysImagesTagsById(boardId);
             if(boardOptional.isEmpty()) return SalesBoardDetailResponseDto.noExistSalesBoard(); // 게시글이 없는 경우
 
             SalesBoard salesBoard = boardOptional.get(); // 게시글이 있는 경우 게시글 불러옴.
 
             boolean favoriteChk = false;
-            Optional<SalesBoardFavorite> getFavorite = salesBoardFavoriteService.findByUserEntityEmailAndSalesBoard(dto.getEmail(), salesBoard);
+            Optional<SalesBoardFavorite> getFavorite = salesBoardFavoriteService.findByUserEntityEmailAndSalesBoard(email, salesBoard);
             if(getFavorite.isPresent()){
                 favoriteChk = true;
             } // 좋아요 버튼 눌렀는지 확인
@@ -57,7 +56,7 @@ public class BoardServiceImplement implements BoardService {
             List<String> getTags = salesBoardTags.stream().map(t -> t.getTag().getName()).toList(); // dto에 담아줄 tags
             List<String> getCategorys = categoryEntitys.stream().map(Category::getName).toList();
 
-            salesBoardDetailDto = SalesBoardDetailDto.builder()
+            salesBoardDetail = SalesBoardDetail.builder()
                     .categorys(getCategorys)
                     .address(userEntity.getAddress())
                     .title(salesBoard.getTitle())
@@ -67,11 +66,11 @@ public class BoardServiceImplement implements BoardService {
                     .writeDateTime(salesBoard.getCreateDate())
                     .salesBoardImages(getImages)
                     .tags(getTags)
-                    .favorite(favoriteChk)
+                    .favoriteChk(favoriteChk)
 
                     .build();
 
-            profileImgNickname = ProfileImgNickname.builder()
+            writer = Writer.builder()
                     .profileImg(userEntity.getProfileImage())
                     .email(userEntity.getEmail())
                     .nickname(userEntity.getNickname())
@@ -80,7 +79,7 @@ public class BoardServiceImplement implements BoardService {
             e.printStackTrace();
             return SalesBoardDetailResponseDto.databaseError();
         }
-        return SalesBoardDetailResponseDto.success(salesBoardDetailDto,profileImgNickname);
+        return SalesBoardDetailResponseDto.success(salesBoardDetail, writer);
     }
 
     // post

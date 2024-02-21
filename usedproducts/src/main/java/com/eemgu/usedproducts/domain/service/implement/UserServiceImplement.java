@@ -6,6 +6,7 @@ import com.eemgu.usedproducts.domain.dto.response.user.GetLoginUserResponseDto;
 import com.eemgu.usedproducts.domain.jpa.service.UserEntityService;
 import com.eemgu.usedproducts.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class UserServiceImplement implements UserService {
     private final UserEntityService userEntityService;
     @Override
@@ -26,6 +28,7 @@ public class UserServiceImplement implements UserService {
                     .email(userEntity.getEmail())
                     .nickname(userEntity.getNickname())
                     .profileImage(userEntity.getProfileImage())
+                    .address(userEntity.getAddress())
                     .build();
         }catch(Exception e){
             e.printStackTrace();
