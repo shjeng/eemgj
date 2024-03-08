@@ -6,6 +6,7 @@ import com.eemgu.usedproducts.domain.dto.request.auth.SignInRequestDto;
 import com.eemgu.usedproducts.domain.dto.request.auth.SignUpRequestDto;
 import com.eemgu.usedproducts.domain.dto.response.auth.*;
 import com.eemgu.usedproducts.domain.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +33,11 @@ public class AuthController {
     @PostMapping("/sign-up/email-auth-chk") // 이메일 인증 확인
     public ResponseEntity<? super EmailAuthChkResponseDto> signUpEmailAuthChk(
             @RequestBody EmailAuthChkRequestDto dto){
-        ResponseEntity<? super EmailAuthChkResponseDto> response = authService.emailAuthChk(dto);
-        return response;
+        return authService.emailAuthChk(dto);
     }
+//    @RequestMapping("/api/auth")
     @PostMapping("/sign-in") // 로그인
-    public ResponseEntity<? super SignInResponseDto> signIn(@RequestBody SignInRequestDto dto){
+    public ResponseEntity<? super SignInResponseDto> signIn(@Valid @RequestBody SignInRequestDto dto){
         return authService.signIn(dto);
     }
     @PostMapping("/sign-up") // 회원가입

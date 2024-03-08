@@ -54,6 +54,7 @@ public class AuthServiceImplement implements AuthService {
             if(!isSucceed) return EmailAuthResponseDto.mailSendFail(); // 메일 전송 실패
 
             AuthNumber authNumber = new AuthNumber(email,randomNumber); // 인증번호와 이메일을 담아줌
+
             authNumberService.save(authNumber);
 
         } catch (Exception e){

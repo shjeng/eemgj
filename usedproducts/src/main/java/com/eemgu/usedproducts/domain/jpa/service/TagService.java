@@ -14,6 +14,9 @@ import java.util.List;
 public class TagService {
     private final TagRespository tagRespository;
 
+    public void save(TagEntity tag){
+        tagRespository.save(tag);
+    }
     public List<TagEntity> saveAll(List<TagEntity> tags){
         return tagRespository.saveAll(tags);
     }

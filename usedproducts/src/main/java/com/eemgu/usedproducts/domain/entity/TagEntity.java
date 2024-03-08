@@ -26,6 +26,7 @@ public class TagEntity {
     public static List<TagEntity> dtoTags(String[] dtoTags){
         List<TagEntity> tagEntities = new ArrayList<>();
         for (String dtoTag : dtoTags) {
+            System.out.println("제발 ! " + dtoTag);
             tagEntities.add(new TagEntity(dtoTag));
         }
         return tagEntities;

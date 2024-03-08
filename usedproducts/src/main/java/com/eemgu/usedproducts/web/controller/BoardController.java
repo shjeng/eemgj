@@ -23,19 +23,22 @@ public class BoardController {
 
     @GetMapping("/get-sales-board") // 게시물 불러오기
     public ResponseEntity<? super SalesBoardDetailResponseDto> getSalesBoard(
-            @RequestParam(name = "email", required = false) String email, @RequestParam(name = "boardId") Long boardId){
+            @RequestParam(name = "email", required = false) String email, @RequestParam(name = "boardId") Long boardId) {
         return boardService.getSalesBoardDetail(email, boardId);
     }
-
+    @GetMapping("/our-sales")
+    public ResponseEntity<Void> getOurSalesBoard(@RequestParam(name = "town") String town){
+        return null;
+    }
     @PostMapping("/sales") // 게시물 작성
     public ResponseEntity<? super SalesBoardWriteResponseDto> salesBoardWrite(
-            @RequestBody @Valid SalesBoardWriteRequestDto dto, @AuthenticationPrincipal String email){
-        return boardService.postSalesBoardWrite(dto,email);
+            @RequestBody @Valid SalesBoardWriteRequestDto dto, @AuthenticationPrincipal String email) {
+        return boardService.postSalesBoardWrite(dto, email);
     }
 
     @PutMapping("/favorite") // 좋아요 버튼 클릭
-    public ResponseEntity<? super SalesBoardFavoriteResponseDto>salesBoardFavorite(
-            @RequestParam("boardId") Long boardId,@AuthenticationPrincipal String email){
-        return boardService.putSalesBoardFavorite(boardId,email);
+    public ResponseEntity<? super SalesBoardFavoriteResponseDto> salesBoardFavorite(
+            @RequestParam("boardId") Long boardId, @AuthenticationPrincipal String email) {
+        return boardService.putSalesBoardFavorite(boardId, email);
     }
 }

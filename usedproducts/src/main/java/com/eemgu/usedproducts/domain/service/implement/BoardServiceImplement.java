@@ -9,10 +9,12 @@ import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardFavoriteRespon
 import com.eemgu.usedproducts.domain.dto.response.board.SalesBoardWriteResponseDto;
 import com.eemgu.usedproducts.domain.jpa.service.*;
 import com.eemgu.usedproducts.domain.service.BoardService;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,8 @@ public class BoardServiceImplement implements BoardService {
     private final ImageService imageService;
     private final SalesBoardCategoryService salesBoardCategoryService;
     private final SalesBoardFavoriteService salesBoardFavoriteService;
+
+    private final EntityManager em;
     // get
 
 
